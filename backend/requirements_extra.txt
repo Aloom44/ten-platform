@@ -1,0 +1,2 @@
+# Django filters package for better API filtering
+django-filter==23.5
