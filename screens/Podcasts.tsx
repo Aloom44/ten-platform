@@ -1,10 +1,29 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PlayCircle, PauseCircle, Headphones, Music } from 'lucide-react';
-import { MOCK_PODCASTS } from '../constants';
+import { api } from '../services/api';
+import { Podcast } from '../types';
 
 export const Podcasts: React.FC = () => {
   const [playingId, setPlayingId] = useState<string | null>(null);
+  const [podcasts, setPodcasts] = useState<Podcast[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadPodcasts = async () => {
+      try {
+        setLoading(true);
+        const data = await api.getPodcasts();
+        setPodcasts(data);
+      } catch (error) {
+        console.error('Failed to load podcasts', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPodcasts();
+  }, []);
 
   const togglePlay = (id: string) => {
     if (playingId === id) {
@@ -24,8 +43,10 @@ export const Podcasts: React.FC = () => {
         <p className="text-purple-600 text-sm font-medium">أغمض عينيك واستمتع بالقصص الصوتية</p>
       </div>
 
+      {loading && <p className="text-sm text-slate-500 mb-4">جاري تحميل البودكاست...</p>}
+
       <div className="space-y-4">
-        {MOCK_PODCASTS.map((podcast) => {
+        {podcasts.map((podcast) => {
           const isPlaying = playingId === podcast.id;
           return (
             <div key={podcast.id} className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex items-center gap-4 transition-all hover:shadow-md">
@@ -56,6 +77,10 @@ export const Podcasts: React.FC = () => {
           );
         })}
       </div>
+
+      {!loading && podcasts.length === 0 && (
+        <p className="text-sm text-slate-500 mt-4">لا توجد حلقات متاحة حالياً.</p>
+      )}
       
       {/* Fake Player Bar if playing */}
       {playingId && (
@@ -69,7 +94,7 @@ export const Podcasts: React.FC = () => {
             </div>
             <div className="flex-1">
                 <p className="text-xs font-bold text-purple-200">جاري التشغيل</p>
-                <p className="text-sm font-bold truncate">{MOCK_PODCASTS.find(p => p.id === playingId)?.title}</p>
+              <p className="text-sm font-bold truncate">{podcasts.find(p => p.id === playingId)?.title}</p>
             </div>
             <button onClick={() => setPlayingId(null)} className="text-slate-400 hover:text-white">
                 <PauseCircle size={24} />

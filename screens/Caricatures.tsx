@@ -1,12 +1,31 @@
-import React, { useState } from 'react';
-import { MOCK_CARICATURES } from '../constants';
+import React, { useEffect, useState } from 'react';
 import { ZoomIn, Share2, PenTool, Image as ImageIcon, Send, CheckCircle, X } from 'lucide-react';
+import { api } from '../services/api';
+import { Caricature } from '../types';
 
 export const Caricatures: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({ title: '', description: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [caricatures, setCaricatures] = useState<Caricature[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadCaricatures = async () => {
+      try {
+        setLoading(true);
+        const data = await api.getCaricatures();
+        setCaricatures(data);
+      } catch (error) {
+        console.error('Failed to load caricatures', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCaricatures();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,8 +54,10 @@ export const Caricatures: React.FC = () => {
         <p className="text-pink-600 text-sm font-medium">رسومات مضحكة لكنها مفيدة!</p>
       </div>
 
+      {loading && <p className="text-sm text-slate-500 mb-4">جاري تحميل الكاريكاتير...</p>}
+
       <div className="grid gap-6 mb-12">
-        {MOCK_CARICATURES.map((item) => (
+        {caricatures.map((item) => (
           <div key={item.id} className="bg-white rounded-3xl overflow-hidden shadow-md border border-slate-100 hover:shadow-lg transition-shadow">
             <div className="relative group cursor-pointer">
                 <img src={item.image} alt={item.title} className="w-full h-auto object-cover bg-slate-100" />
@@ -60,6 +81,10 @@ export const Caricatures: React.FC = () => {
           </div>
         ))}
       </div>
+
+      {!loading && caricatures.length === 0 && (
+        <p className="text-sm text-slate-500 mb-8">لا توجد رسومات متاحة حالياً.</p>
+      )}
       
       {/* Contribution Section */}
       <div className="relative">

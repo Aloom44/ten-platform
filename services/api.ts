@@ -1,10 +1,118 @@
 
-import { Story, UserProfile, AppSettings } from '../types';
-import { MOCK_STORIES, MOCK_PROFILE, PARENT_TIPS } from '../constants';
+import { Story, UserProfile, AppSettings, Video, Game, Podcast, Caricature } from '../types';
+import {
+  MOCK_STORIES,
+  MOCK_PROFILE,
+  MOCK_VIDEOS,
+  MOCK_GAMES,
+  MOCK_PODCASTS,
+  MOCK_CARICATURES,
+} from '../constants';
 
 // Configuration
-const API_BASE_URL = 'http://localhost:8000/api'; // Django Local Server
-const USE_REAL_API = false; // Set to TRUE when Django server is running (مؤقتاً false للتجربة)
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+const USE_REAL_API = import.meta.env.VITE_USE_REAL_API === 'true';
+const API_ORIGIN = API_BASE_URL.replace(/\/api\/?$/, '');
+
+const STORY_COLORS = [
+  'bg-green-100 text-green-700',
+  'bg-red-100 text-red-700',
+  'bg-indigo-100 text-indigo-700',
+  'bg-orange-100 text-orange-700',
+];
+
+const GAME_COLORS = [
+  'bg-blue-100 border-blue-300',
+  'bg-orange-100 border-orange-300',
+  'bg-purple-100 border-purple-300',
+  'bg-red-100 border-red-300',
+];
+
+const GAME_TYPE_ICONS: Record<string, string> = {
+  puzzle: '🧩',
+  memory: '🧠',
+  educational: '📘',
+  multiplayer: '🌐',
+  quiz: '❓',
+};
+
+const gameTypeLabel = (value?: string): string => {
+  switch (value) {
+    case 'puzzle':
+      return 'ألغاز';
+    case 'memory':
+      return 'ذاكرة';
+    case 'educational':
+      return 'تعليمي';
+    case 'multiplayer':
+      return 'أونلاين';
+    case 'quiz':
+      return 'اختبار';
+    default:
+      return 'لعبة';
+  }
+};
+
+const pad = (n: number) => String(n).padStart(2, '0');
+
+const toDurationString = (seconds?: number): string => {
+  if (!seconds || seconds <= 0) return '00:00';
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${pad(mins)}:${pad(secs)}`;
+};
+
+const toArray = <T,>(payload: T[] | { results?: T[] } | null | undefined): T[] => {
+  if (!payload) return [];
+  if (Array.isArray(payload)) return payload;
+  return payload.results || [];
+};
+
+const resolveMediaUrl = (value?: string | null, fallback = 'https://picsum.photos/400/300?random=999'): string => {
+  if (!value) return fallback;
+  if (value.startsWith('http://') || value.startsWith('https://')) return value;
+  if (value.startsWith('/')) return `${API_ORIGIN}${value}`;
+  return `${API_ORIGIN}/${value}`;
+};
+
+const mapStory = (item: any, idx: number): Story => ({
+  id: String(item.id),
+  title: item.title || 'قصة',
+  excerpt: item.summary || (item.content ? String(item.content).slice(0, 120) : ''),
+  image: resolveMediaUrl(item.image, `https://picsum.photos/400/300?random=${100 + idx}`),
+  color: STORY_COLORS[idx % STORY_COLORS.length],
+});
+
+const mapVideo = (item: any, idx: number): Video => ({
+  id: String(item.id),
+  title: item.title || 'فيديو',
+  duration: toDurationString(item.duration),
+  thumbnail: resolveMediaUrl(item.thumbnail, `https://picsum.photos/400/250?random=${200 + idx}`),
+});
+
+const mapGame = (item: any, idx: number): Game => ({
+  id: String(item.id),
+  title: item.title || 'لعبة',
+  type: gameTypeLabel(item.game_type),
+  icon: GAME_TYPE_ICONS[item.game_type] || '🎮',
+  color: GAME_COLORS[idx % GAME_COLORS.length],
+});
+
+const mapPodcast = (item: any, idx: number): Podcast => ({
+  id: String(item.id),
+  title: item.title || 'بودكاست',
+  duration: toDurationString(item.duration),
+  host: item.host || 'ضيف البرنامج',
+  image: resolveMediaUrl(item.thumbnail, `https://picsum.photos/200/200?random=${300 + idx}`),
+  color: idx % 2 === 0 ? 'bg-emerald-100' : 'bg-orange-100',
+});
+
+const mapCaricature = (item: any, idx: number): Caricature => ({
+  id: String(item.id),
+  title: item.title || 'كاريكاتير',
+  image: resolveMediaUrl(item.image, `https://picsum.photos/400/400?random=${400 + idx}`),
+  description: item.description || 'بدون وصف',
+});
 
 // Get auth token from localStorage
 const getAuthToken = () => {
@@ -27,7 +135,7 @@ const fetchJson = async (endpoint: string, options: RequestInit = {}) => {
       ...options.headers,
     },
   });
-  if (!response.ok) throw new Error('API Error');
+  if (!response.ok) throw new Error(`API Error: ${response.status}`);
   return response.json();
 };
 
@@ -62,13 +170,49 @@ export const api = {
   getStories: async (): Promise<Story[]> => {
     if (USE_REAL_API) {
       const data = await fetchJson('/content/stories/');
-      return data.results || data;
+      return toArray<any>(data).map(mapStory);
     }
     // Mock Delay
     await new Promise(r => setTimeout(r, 500));
     const saved = localStorage.getItem('custom_stories');
     const customStories = saved ? JSON.parse(saved) : [];
     return [...customStories, ...MOCK_STORIES];
+  },
+
+  getVideos: async (): Promise<Video[]> => {
+    if (USE_REAL_API) {
+      const data = await fetchJson('/content/videos/');
+      return toArray<any>(data).map(mapVideo);
+    }
+    await new Promise((r) => setTimeout(r, 300));
+    return MOCK_VIDEOS;
+  },
+
+  getGames: async (): Promise<Game[]> => {
+    if (USE_REAL_API) {
+      const data = await fetchJson('/content/games/');
+      return toArray<any>(data).map(mapGame);
+    }
+    await new Promise((r) => setTimeout(r, 300));
+    return MOCK_GAMES;
+  },
+
+  getPodcasts: async (): Promise<Podcast[]> => {
+    if (USE_REAL_API) {
+      const data = await fetchJson('/content/podcasts/');
+      return toArray<any>(data).map(mapPodcast);
+    }
+    await new Promise((r) => setTimeout(r, 300));
+    return MOCK_PODCASTS;
+  },
+
+  getCaricatures: async (): Promise<Caricature[]> => {
+    if (USE_REAL_API) {
+      const data = await fetchJson('/content/caricatures/');
+      return toArray<any>(data).map(mapCaricature);
+    }
+    await new Promise((r) => setTimeout(r, 300));
+    return MOCK_CARICATURES;
   },
 
   saveStory: async (story: Partial<Story>): Promise<Story> => {
@@ -101,7 +245,14 @@ export const api = {
   // --- PROFILE ---
   getProfile: async (): Promise<UserProfile> => {
     if (USE_REAL_API) {
-      return fetchJson('/users/profiles/my_profile/');
+      const data = await fetchJson('/users/profiles/my_profile/');
+      return {
+        name: data.username || 'مستخدم',
+        level: data.level || 1,
+        badges: [],
+        progress: Math.min((data.points || 0) % 100, 100),
+        avatar: resolveMediaUrl(data.avatar, 'https://picsum.photos/200/200?random=8'),
+      };
     }
     await new Promise(r => setTimeout(r, 300));
     const saved = localStorage.getItem('user_profile');

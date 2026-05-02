@@ -1,12 +1,34 @@
-import React from 'react';
-import { MOCK_VIDEOS } from '../constants';
+import React, { useEffect, useState } from 'react';
 import { PlayCircle } from 'lucide-react';
+import { api } from '../services/api';
+import { Video } from '../types';
 
 export const Videos: React.FC = () => {
+  const [videos, setVideos] = useState<Video[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadVideos = async () => {
+      try {
+        setLoading(true);
+        const data = await api.getVideos();
+        setVideos(data);
+      } catch (error) {
+        console.error('Failed to load videos', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadVideos();
+  }, []);
+
   return (
     <div className="px-4 pb-24 pt-4">
+      {loading && <p className="text-sm text-slate-500 mb-4">جاري تحميل الفيديوهات...</p>}
+
       <div className="grid grid-cols-2 gap-4">
-        {MOCK_VIDEOS.map((video) => (
+        {videos.map((video) => (
           <div key={video.id} className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 group">
             <div className="relative aspect-[4/3]">
               <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover" />
@@ -29,6 +51,10 @@ export const Videos: React.FC = () => {
            <span className="text-xs font-bold">قريباً</span>
         </div>
       </div>
+
+      {!loading && videos.length === 0 && (
+        <p className="text-sm text-slate-500 mt-4">لا توجد فيديوهات متاحة حالياً.</p>
+      )}
     </div>
   );
 };

@@ -1,14 +1,41 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Play, Star, ChevronLeft, ShieldCheck, Headphones, Image as ImageIcon } from 'lucide-react';
-import { MOCK_STORIES, MOCK_GAMES, MOCK_VIDEOS } from '../constants';
-import { Tab } from '../types';
+import { Tab, Story, Video, Game } from '../types';
+import { api } from '../services/api';
 
 interface HomeProps {
   onChangeTab: (tab: Tab) => void;
 }
 
 export const Home: React.FC<HomeProps> = ({ onChangeTab }) => {
+  const [stories, setStories] = useState<Story[]>([]);
+  const [videos, setVideos] = useState<Video[]>([]);
+  const [games, setGames] = useState<Game[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadHomeData = async () => {
+      try {
+        setLoading(true);
+        const [storiesData, videosData, gamesData] = await Promise.all([
+          api.getStories(),
+          api.getVideos(),
+          api.getGames(),
+        ]);
+        setStories(storiesData.slice(0, 3));
+        setVideos(videosData.slice(0, 4));
+        setGames(gamesData.slice(0, 3));
+      } catch (error) {
+        console.error('Failed to load home data', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadHomeData();
+  }, []);
+
   return (
     <div className="space-y-8 pb-24">
       {/* Hero Section */}
@@ -66,8 +93,9 @@ export const Home: React.FC<HomeProps> = ({ onChangeTab }) => {
             المزيد <ChevronLeft size={18} />
           </button>
         </div>
+        {loading && <p className="text-sm text-slate-500 mb-3">جاري تحميل القصص...</p>}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {MOCK_STORIES.map(story => (
+          {stories.map(story => (
             <div key={story.id} className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
               <img src={story.image} alt={story.title} className="w-full h-40 object-cover rounded-xl mb-3" />
               <h4 className="font-bold text-slate-800 mb-2 text-base">{story.title}</h4>
@@ -85,7 +113,9 @@ export const Home: React.FC<HomeProps> = ({ onChangeTab }) => {
         >
           <div>
             <h3 className="text-xl md:text-2xl font-black text-blue-800 mb-2">اختبر ذكائك!</h3>
-            <p className="text-blue-600 text-sm md:text-base font-medium">هل يمكنك التمييز بين الآمن والخطر؟</p>
+            <p className="text-blue-600 text-sm md:text-base font-medium">
+              {games.length > 0 ? `يوجد ${games.length} ألعاب جاهزة الآن` : 'هل يمكنك التمييز بين الآمن والخطر؟'}
+            </p>
           </div>
           <div className="bg-white p-3 md:p-4 rounded-2xl shadow-md rotate-3">
              <span className="text-4xl md:text-5xl">🛡️</span>
@@ -102,7 +132,7 @@ export const Home: React.FC<HomeProps> = ({ onChangeTab }) => {
           </h3>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-           {MOCK_VIDEOS.slice(0, 4).map(video => (
+            {videos.map(video => (
              <div key={video.id} className="bg-white rounded-2xl p-2 shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
                 <div className="relative">
                   <img src={video.thumbnail} className="w-full h-24 object-cover rounded-xl" alt={video.title} />

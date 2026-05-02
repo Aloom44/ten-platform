@@ -1,14 +1,34 @@
 
-import React from 'react';
-import { MOCK_STORIES } from '../constants';
+import React, { useEffect, useState } from 'react';
 import { Clock, Heart } from 'lucide-react';
 import { GeminiStoryGenerator } from '../components/GeminiStoryGenerator';
+import { api } from '../services/api';
+import { Story } from '../types';
 
 interface StoriesProps {
   safeMode: boolean;
 }
 
 export const Stories: React.FC<StoriesProps> = ({ safeMode }) => {
+  const [stories, setStories] = useState<Story[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadStories = async () => {
+      try {
+        setLoading(true);
+        const data = await api.getStories();
+        setStories(data);
+      } catch (error) {
+        console.error('Failed to load stories', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadStories();
+  }, []);
+
   return (
     <div className="px-6 pb-24 pt-4">
       {/* AI Generator Integration with Safe Mode */}
@@ -19,8 +39,10 @@ export const Stories: React.FC<StoriesProps> = ({ safeMode }) => {
         مكتبتي
       </h2>
 
+      {loading && <p className="text-sm text-slate-500 mb-4">جاري تحميل القصص...</p>}
+
       <div className="grid gap-6">
-        {MOCK_STORIES.map((story) => (
+        {stories.map((story) => (
           <div key={story.id} className="bg-white rounded-3xl p-4 shadow-sm border border-slate-100 group active:scale-[0.99] transition-all duration-300">
             <div className="flex gap-4">
               <div className="relative w-24 h-24 flex-shrink-0">
@@ -44,6 +66,10 @@ export const Stories: React.FC<StoriesProps> = ({ safeMode }) => {
           </div>
         ))}
       </div>
+
+      {!loading && stories.length === 0 && (
+        <p className="text-sm text-slate-500">لا توجد قصص متاحة حالياً.</p>
+      )}
     </div>
   );
 };

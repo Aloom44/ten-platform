@@ -1,11 +1,30 @@
 
-import React, { useState } from 'react';
-import { MOCK_GAMES } from '../constants';
+import React, { useEffect, useState } from 'react';
 import { MultiplayerGame } from '../components/MultiplayerGame';
 import { Globe, User } from 'lucide-react';
+import { api } from '../services/api';
+import { Game } from '../types';
 
 export const Games: React.FC = () => {
   const [mode, setMode] = useState<'menu' | 'multiplayer'>('menu');
+  const [games, setGames] = useState<Game[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadGames = async () => {
+      try {
+        setLoading(true);
+        const data = await api.getGames();
+        setGames(data);
+      } catch (error) {
+        console.error('Failed to load games', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadGames();
+  }, []);
 
   if (mode === 'multiplayer') {
     return <MultiplayerGame onExit={() => setMode('menu')} />;
@@ -44,8 +63,10 @@ export const Games: React.FC = () => {
         ألعاب فردية
       </h3>
 
+      {loading && <p className="text-sm text-slate-500 mb-4">جاري تحميل الألعاب...</p>}
+
       <div className="grid grid-cols-2 gap-4">
-        {MOCK_GAMES.map((game) => (
+        {games.map((game) => (
           <button 
             key={game.id} 
             className={`aspect-square rounded-[2rem] p-4 flex flex-col items-center justify-center gap-3 text-center transition-all active:scale-95 border-b-4 hover:-translate-y-1 ${game.color} bg-white`}
@@ -58,6 +79,10 @@ export const Games: React.FC = () => {
           </button>
         ))}
       </div>
+
+      {!loading && games.length === 0 && (
+        <p className="text-sm text-slate-500 mt-4">لا توجد ألعاب متاحة حالياً.</p>
+      )}
     </div>
   );
 };
