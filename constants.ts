@@ -171,6 +171,7 @@ export const NAV_ITEMS = [
   { id: 'stories', label: 'قصص', icon: BookOpen },
   { id: 'videos', label: 'فيديو', icon: VideoIcon },
   { id: 'games', label: 'تحديات', icon: Gamepad2 },
+  { id: 'admin', label: 'إدارة', icon: ShieldAlert },
   { id: 'profile', label: 'بطلي', icon: User },
 ];
 

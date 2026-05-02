@@ -60,6 +60,7 @@ export enum Tab {
   STORIES = 'stories',
   VIDEOS = 'videos',
   GAMES = 'games',
+  ADMIN = 'admin',
   PARENTS = 'parents',
   PROFILE = 'profile',
   PODCASTS = 'podcasts',

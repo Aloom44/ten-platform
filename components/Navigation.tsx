@@ -9,8 +9,8 @@ interface NavigationProps {
 
 export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange }) => {
   return (
-    <div className="fixed bottom-0 left-0 right-0 p-3 md:p-4 z-50 pointer-events-none">
-      <nav className="bg-white/95 backdrop-blur-md rounded-full shadow-xl border border-slate-100 px-4 sm:px-8 md:px-10 py-3 flex justify-between items-center max-w-3xl mx-auto pointer-events-auto">
+    <div className="pointer-events-none fixed bottom-0 left-0 right-0 z-50 p-2 sm:p-3 md:p-4">
+      <nav className="pointer-events-auto mx-auto flex max-w-3xl items-center justify-between rounded-[2rem] border border-white/80 bg-white/90 px-3 py-2.5 shadow-[0_20px_60px_rgba(15,23,42,0.16)] backdrop-blur-xl sm:px-6 sm:py-3 md:px-8">
         {NAV_ITEMS.map((item) => {
           const isActive = currentTab === item.id;
           const Icon = item.icon;
@@ -19,14 +19,14 @@ export const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange 
             <button
               key={item.id}
               onClick={() => onTabChange(item.id as Tab)}
-              className={`flex flex-col items-center gap-1 transition-all duration-300 px-2 md:px-3 ${
-                isActive ? 'text-sky-500 transform -translate-y-1' : 'text-slate-400 hover:text-slate-600'
+              className={`flex min-w-[58px] flex-col items-center gap-1 px-2 transition-all duration-300 md:px-3 ${
+                isActive ? 'text-sky-600 -translate-y-1' : 'text-slate-500 hover:text-slate-700'
               }`}
             >
-              <div className={`p-2 rounded-full transition-all ${isActive ? 'bg-sky-100' : 'bg-transparent'}`}>
+              <div className={`rounded-2xl p-2 transition-all ${isActive ? 'bg-sky-100 shadow-sm' : 'bg-transparent'}`}>
                 <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
               </div>
-              <span className={`text-[10px] md:text-xs font-bold ${isActive ? 'opacity-100' : 'opacity-70 md:opacity-100'}`}>
+              <span className={`text-[10px] font-bold md:text-xs ${isActive ? 'opacity-100' : 'opacity-75 md:opacity-100'}`}>
                 {item.label}
               </span>
             </button>

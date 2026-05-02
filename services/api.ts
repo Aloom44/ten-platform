@@ -242,6 +242,68 @@ export const api = {
     return newStory;
   },
 
+  createStory: async (payload: {
+    title: string;
+    content: string;
+    summary: string;
+    age_group: string;
+    difficulty: 'easy' | 'medium' | 'hard';
+    reading_time: number;
+    author?: string;
+    is_active?: boolean;
+  }): Promise<any> => {
+    return fetchJson('/content/stories/', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
+
+  createVideo: async (payload: {
+    title: string;
+    description: string;
+    video_url: string;
+    duration: number;
+    age_group: string;
+    category: string;
+    is_active?: boolean;
+  }): Promise<any> => {
+    return fetchJson('/content/videos/', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
+
+  createGame: async (payload: {
+    title: string;
+    description: string;
+    game_type: 'puzzle' | 'memory' | 'educational' | 'multiplayer' | 'quiz';
+    age_group: string;
+    difficulty: 'easy' | 'medium' | 'hard';
+    game_url?: string;
+    is_active?: boolean;
+  }): Promise<any> => {
+    return fetchJson('/content/games/', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
+
+  createPodcast: async (payload: {
+    title: string;
+    description: string;
+    audio_url: string;
+    duration: number;
+    age_group: string;
+    category: string;
+    host?: string;
+    is_active?: boolean;
+  }): Promise<any> => {
+    return fetchJson('/content/podcasts/', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
+
   // --- PROFILE ---
   getProfile: async (): Promise<UserProfile> => {
     if (USE_REAL_API) {

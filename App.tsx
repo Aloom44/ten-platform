@@ -9,6 +9,7 @@ import { Profile } from './screens/Profile';
 import { Parents } from './screens/Parents';
 import { Podcasts } from './screens/Podcasts';
 import { Caricatures } from './screens/Caricatures';
+import { AdminPanel } from './screens/AdminPanel';
 import { Tab, AppSettings } from './types';
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
       case Tab.STORIES: return <Stories safeMode={appSettings.safeFilter} />;
       case Tab.VIDEOS: return <Videos />;
       case Tab.GAMES: return <Games />;
+      case Tab.ADMIN: return <AdminPanel />;
       case Tab.PROFILE: return <Profile />;
       case Tab.PODCASTS: return <Podcasts />;
       case Tab.CARICATURES: return <Caricatures />;
@@ -65,13 +67,10 @@ function App() {
   };
 
   return (
-    // Full screen layout for both mobile and desktop
-    <div className="min-h-screen bg-slate-50 font-tajawal">
-      {/* Main Container - Full width on all screens */}
-      <div className="w-full min-h-screen bg-white">
-        
-        {/* Scrollable Content Area */}
-        <div className="min-h-screen overflow-y-auto bg-slate-50 pb-20">
+    <div className="app-shell min-h-screen font-tajawal">
+      <div className="mx-auto min-h-screen w-full max-w-7xl px-2 sm:px-4 md:px-6 lg:px-8">
+        <div className="app-frame min-h-screen overflow-hidden rounded-none border-0 sm:my-4 sm:rounded-[28px] sm:border sm:border-white/60">
+          <div className="min-h-screen overflow-y-auto pb-24">
           {!showParentsCorner && (
             <Header 
               currentTab={currentTab} 
@@ -79,20 +78,19 @@ function App() {
             />
           )}
           
-          {/* Main content with max width for desktop */}
           <main 
             key={showParentsCorner ? 'parents' : currentTab}
-            className="animate-fade-in px-4 md:px-6 lg:px-8 max-w-7xl mx-auto"
+            className="animate-fade-in px-3 sm:px-5 md:px-7 lg:px-8"
           >
             {renderScreen()}
           </main>
         </div>
 
-        {/* Bottom Navigation - Fixed at bottom */}
         {!showParentsCorner && (
           <Navigation currentTab={currentTab} onTabChange={setCurrentTab} />
         )}
       </div>
+    </div>
     </div>
   );
 }
