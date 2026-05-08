@@ -36,6 +36,8 @@ class Story(models.Model):
     author = models.CharField(max_length=100, blank=True, verbose_name="المؤلف")
     views = models.IntegerField(default=0, verbose_name="المشاهدات")
     likes = models.IntegerField(default=0, verbose_name="الإعجابات")
+    content_preparation = models.CharField(max_length=200, blank=True, verbose_name="إعداد المحتوى")
+    execution = models.CharField(max_length=200, blank=True, verbose_name="تنفيذ")
     is_active = models.BooleanField(default=True, verbose_name="نشط")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -69,6 +71,8 @@ class Game(models.Model):
     game_data = models.JSONField(blank=True, null=True, verbose_name="بيانات اللعبة")
     plays_count = models.IntegerField(default=0, verbose_name="عدد مرات اللعب")
     rating = models.DecimalField(max_digits=3, decimal_places=2, default=0, verbose_name="التقييم")
+    content_preparation = models.CharField(max_length=200, blank=True, verbose_name="إعداد المحتوى")
+    execution = models.CharField(max_length=200, blank=True, verbose_name="تنفيذ")
     is_active = models.BooleanField(default=True, verbose_name="نشط")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -84,15 +88,23 @@ class Game(models.Model):
 
 class Video(models.Model):
     """الفيديوهات"""
+    VIDEO_CATEGORY_CHOICES = [
+        ('awareness', 'فيديوهات توعوية'),
+        ('activities', 'أنشطة وتحديات'),
+        ('quick_info', 'معلومات سريعة'),
+    ]
+    
     title = models.CharField(max_length=200, verbose_name="العنوان")
     description = models.TextField(verbose_name="الوصف")
     thumbnail = models.ImageField(upload_to='videos/thumbnails/', blank=True, null=True, verbose_name="الصورة المصغرة")
     video_url = models.URLField(verbose_name="رابط الفيديو")
     duration = models.IntegerField(default=0, verbose_name="المدة (ثواني)")
     age_group = models.CharField(max_length=20, verbose_name="الفئة العمرية")
-    category = models.CharField(max_length=50, verbose_name="الفئة")
+    category = models.CharField(max_length=50, choices=VIDEO_CATEGORY_CHOICES, verbose_name="الفئة")
     views = models.IntegerField(default=0, verbose_name="المشاهدات")
     likes = models.IntegerField(default=0, verbose_name="الإعجابات")
+    content_preparation = models.CharField(max_length=200, blank=True, verbose_name="إعداد المحتوى")
+    execution = models.CharField(max_length=200, blank=True, verbose_name="تنفيذ")
     is_active = models.BooleanField(default=True, verbose_name="نشط")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -114,6 +126,8 @@ class Caricature(models.Model):
     age_group = models.CharField(max_length=20, verbose_name="الفئة العمرية")
     views = models.IntegerField(default=0, verbose_name="المشاهدات")
     likes = models.IntegerField(default=0, verbose_name="الإعجابات")
+    content_preparation = models.CharField(max_length=200, blank=True, verbose_name="إعداد المحتوى")
+    execution = models.CharField(max_length=200, blank=True, verbose_name="تنفيذ")
     is_active = models.BooleanField(default=True, verbose_name="نشط")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -139,6 +153,8 @@ class Podcast(models.Model):
     host = models.CharField(max_length=100, blank=True, verbose_name="المقدم")
     plays_count = models.IntegerField(default=0, verbose_name="عدد مرات التشغيل")
     likes = models.IntegerField(default=0, verbose_name="الإعجابات")
+    content_preparation = models.CharField(max_length=200, blank=True, verbose_name="إعداد المحتوى")
+    execution = models.CharField(max_length=200, blank=True, verbose_name="تنفيذ")
     is_active = models.BooleanField(default=True, verbose_name="نشط")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -146,6 +162,34 @@ class Podcast(models.Model):
     class Meta:
         verbose_name = "بودكاست"
         verbose_name_plural = "البودكاست"
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return self.title
+
+
+class ParentTip(models.Model):
+    """نصائح أولياء الأمور"""
+    CATEGORY_CHOICES = [
+        ('protection', 'حماية الأطفال من المحتوى غير المناسب'),
+        ('screen_time', 'تنظيم وقت الشاشة'),
+        ('digital_edu', 'التربية الرقمية'),
+        ('online_safety', 'الأمان على الإنترنت'),
+    ]
+    
+    title = models.CharField(max_length=200, verbose_name="العنوان")
+    content = models.TextField(verbose_name="المحتوى")
+    image = models.ImageField(upload_to='parent_tips/', blank=True, null=True, verbose_name="الصورة")
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, verbose_name="الفئة")
+    content_preparation = models.CharField(max_length=200, blank=True, verbose_name="إعداد المحتوى")
+    execution = models.CharField(max_length=200, blank=True, verbose_name="تنفيذ")
+    is_active = models.BooleanField(default=True, verbose_name="نشط")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = "نصيحة لولي الأمر"
+        verbose_name_plural = "نصائح أولياء الأمور"
         ordering = ['-created_at']
     
     def __str__(self):
@@ -160,6 +204,7 @@ class Comment(models.Model):
         ('video', 'فيديو'),
         ('podcast', 'بودكاست'),
         ('caricature', 'كاريكاتير'),
+        ('parent_tip', 'نصيحة لولي الأمر'),
     ]
     
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="المستخدم")

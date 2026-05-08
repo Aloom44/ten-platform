@@ -3,10 +3,11 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Story, Game, Video, Caricature, Podcast, Comment, UserProgress, Category
+from .models import Story, Game, Video, Caricature, Podcast, Comment, UserProgress, Category, ParentTip
 from .serializers import (
     StorySerializer, GameSerializer, VideoSerializer, CaricatureSerializer,
-    PodcastSerializer, CommentSerializer, UserProgressSerializer, CategorySerializer
+    PodcastSerializer, CommentSerializer, UserProgressSerializer, CategorySerializer,
+    ParentTipSerializer
 )
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -133,6 +134,15 @@ class PodcastViewSet(viewsets.ModelViewSet):
         podcast.likes += 1
         podcast.save()
         return Response({'likes': podcast.likes})
+
+class ParentTipViewSet(viewsets.ModelViewSet):
+    queryset = ParentTip.objects.filter(is_active=True)
+    serializer_class = ParentTipSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['category']
+    search_fields = ['title', 'content']
+    ordering_fields = ['created_at']
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.filter(is_approved=True)
