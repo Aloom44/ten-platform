@@ -105,3 +105,12 @@ body {
 .animate-slide-up {
   animation: slideUp 0.45s ease-out forwards;
 }
+
+@keyframes imageZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
+
+.animate-image-zoom {
+  animation: imageZoom 20s linear infinite alternate;
+}

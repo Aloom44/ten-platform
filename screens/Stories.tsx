@@ -137,20 +137,20 @@ export const Stories: React.FC<StoriesProps> = ({ safeMode }) => {
                </div>
             </div>
 
-            {/* Premium Hero Section */}
-            <div className="relative w-full h-[60vh] sm:h-[650px] -mt-24 overflow-hidden">
+            {/* Premium Hero Section - Optimized Clarity */}
+            <div className="relative w-full h-[55vh] sm:h-[600px] -mt-24 overflow-hidden shadow-2xl">
                <img 
                 src={selectedStory.image} 
                 alt={selectedStory.title} 
-                className="w-full h-full object-cover transition-transform duration-[20s] hover:scale-110" 
+                className="w-full h-full object-cover animate-image-zoom" 
                />
                
-               {/* Decorative Overlays */}
-               <div className="absolute inset-0 bg-gradient-to-t from-[#FDFCF8] via-black/30 to-black/10"></div>
-               <div className="absolute inset-0 bg-sky-900/10 mix-blend-overlay"></div>
+               {/* Soft, Professional Gradient - Reduced Darkness */}
+               <div className="absolute inset-0 bg-gradient-to-t from-[#FDFCF8] via-transparent to-black/5"></div>
+               <div className="absolute inset-0 bg-sky-900/5 mix-blend-overlay"></div>
 
-               {/* Hero Content */}
-               <div className="absolute bottom-0 left-0 right-0 p-8 sm:p-16 text-right">
+               {/* Hero Content - Moved for better visibility */}
+               <div className="absolute bottom-0 left-0 right-0 p-8 sm:p-20 text-right">
                   <div className="flex flex-wrap items-center justify-end gap-3 mb-6 animate-in slide-in-from-right duration-700">
                     <span className="bg-sky-500 text-white px-5 py-2.5 rounded-[1.2rem] text-xs font-black shadow-lg shadow-sky-500/30 flex items-center gap-2">
                       <BookOpen size={16} /> قصة ذكية
