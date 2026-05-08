@@ -192,7 +192,11 @@ export const AdminPanel: React.FC = () => {
         cover_image_url: '',
       }));
     } catch (err: any) {
-      const details = err?.message ? ` (${err.message})` : '';
+      console.error('Submission error:', err);
+      let details = '';
+      if (err?.message) {
+        details = ` (${err.message})`;
+      }
       setError(`فشل رفع المحتوى${details}`);
     } finally {
       setIsSubmitting(false);
