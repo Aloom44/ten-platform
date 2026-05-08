@@ -113,6 +113,7 @@ export const AdminPanel: React.FC = () => {
           duration: Number(values.duration || 0),
           age_group: values.age_group,
           category: values.category,
+          thumbnail_url: values.thumbnail_url,
           is_active: true,
         });
       }
