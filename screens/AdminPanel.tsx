@@ -94,6 +94,7 @@ export const AdminPanel: React.FC = () => {
           difficulty: values.difficulty as 'easy' | 'medium' | 'hard',
           reading_time: Number(values.reading_time || 5),
           author: values.author,
+          image_url: values.image_url,
           is_active: true,
         });
       }
@@ -387,6 +388,12 @@ export const AdminPanel: React.FC = () => {
                     required
                   />
                 </div>
+                <input
+                  value={values.image_url}
+                  onChange={(e) => updateValue('image_url', e.target.value)}
+                  placeholder="رابط الصورة (اختياري)"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
+                />
               </>
             )}
 

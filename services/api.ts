@@ -79,8 +79,11 @@ const mapStory = (item: any, idx: number): Story => ({
   id: String(item.id),
   title: item.title || 'قصة',
   excerpt: item.summary || (item.content ? String(item.content).slice(0, 120) : ''),
-  image: resolveMediaUrl(item.image, `https://picsum.photos/400/300?random=${100 + idx}`),
+  image: resolveMediaUrl(item.image_url || item.image, `https://picsum.photos/400/300?random=${100 + idx}`),
+  imageUrl: item.image_url,
   color: STORY_COLORS[idx % STORY_COLORS.length],
+  content: item.content,
+  summary: item.summary,
   contentPreparation: item.content_preparation,
   execution: item.execution,
 });
@@ -303,6 +306,7 @@ export const api = {
     difficulty: 'easy' | 'medium' | 'hard';
     reading_time: number;
     author?: string;
+    image_url?: string;
     content_preparation?: string;
     execution?: string;
     is_active?: boolean;

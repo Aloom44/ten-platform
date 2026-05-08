@@ -13,7 +13,7 @@ class StoryAdmin(admin.ModelAdmin):
     search_fields = ['title', 'content', 'author']
     readonly_fields = ['views', 'likes', 'created_at', 'updated_at']
     fieldsets = (
-        (None, {'fields': ('title', 'content', 'summary', 'image')}),
+        (None, {'fields': ('title', 'content', 'summary', 'image', 'image_url')}),
         ('التفاصيل', {'fields': ('age_group', 'difficulty', 'reading_time', 'author', 'is_active')}),
         ('فريق العمل', {'fields': ('content_preparation', 'execution')}),
         ('الإحصائيات', {'fields': ('views', 'likes', 'created_at', 'updated_at')}),

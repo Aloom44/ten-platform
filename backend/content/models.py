@@ -30,6 +30,7 @@ class Story(models.Model):
     content = models.TextField(verbose_name="المحتوى")
     summary = models.TextField(max_length=500, verbose_name="الملخص")
     image = models.ImageField(upload_to='stories/', blank=True, null=True, verbose_name="الصورة")
+    image_url = models.URLField(blank=True, verbose_name="رابط الصورة (اختياري)")
     age_group = models.CharField(max_length=20, verbose_name="الفئة العمرية")
     difficulty = models.CharField(max_length=10, choices=DIFFICULTY_CHOICES, default='easy', verbose_name="المستوى")
     reading_time = models.IntegerField(default=5, verbose_name="وقت القراءة (دقائق)")

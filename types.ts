@@ -4,7 +4,10 @@ export interface Story {
   title: string;
   excerpt: string;
   image: string;
+  imageUrl?: string;
   color: string;
+  content?: string;
+  summary?: string;
   contentPreparation?: string;
   execution?: string;
   isGenerated?: boolean;
