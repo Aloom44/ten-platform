@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { PlayCircle, X, Clock, User, Share2, Sparkles, Star } from 'lucide-react';
+import { PlayCircle, X, Clock, User, Share2, Sparkles, Star, ChevronLeft } from 'lucide-react';
 import { api } from '../services/api';
 import { Video } from '../types';
 
