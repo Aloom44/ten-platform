@@ -312,6 +312,7 @@ export const AdminPanel: React.FC = () => {
                   <option value="awareness">فيديوهات توعوية</option>
                   <option value="activities">أنشطة وتحديات</option>
                   <option value="quick_info">معلومات سريعة</option>
+                  <option value="reports">تقارير ميدانية</option>
                 </select>
               )}
 

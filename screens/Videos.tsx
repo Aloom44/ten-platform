@@ -31,6 +31,8 @@ export const Videos: React.FC = () => {
         return { label: 'أنشطة وتحديات', color: 'bg-emerald-100 text-emerald-700' };
       case 'quick_info':
         return { label: 'معلومات سريعة', color: 'bg-amber-100 text-amber-700' };
+      case 'reports':
+        return { label: 'تقارير ميدانية', color: 'bg-purple-100 text-purple-700' };
       default:
         return { label: 'فيديو', color: 'bg-slate-100 text-slate-700' };
     }
