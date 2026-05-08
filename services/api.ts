@@ -85,6 +85,8 @@ const mapStory = (item: any, idx: number): Story => ({
   content: item.content,
   summary: item.summary,
   author: item.author,
+  goal: item.goal,
+  dailyTip: item.daily_tip,
   contentPreparation: item.content_preparation,
   execution: item.execution,
 });
@@ -308,6 +310,8 @@ export const api = {
     reading_time: number;
     author?: string;
     image_url?: string;
+    goal?: string;
+    daily_tip?: string;
     content_preparation?: string;
     execution?: string;
     is_active?: boolean;

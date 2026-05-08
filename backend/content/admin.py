@@ -15,6 +15,7 @@ class StoryAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {'fields': ('title', 'content', 'summary', 'image', 'image_url')}),
         ('التفاصيل', {'fields': ('age_group', 'difficulty', 'reading_time', 'author', 'is_active')}),
+        ('الأهداف والنصائح', {'fields': ('goal', 'daily_tip')}),
         ('فريق العمل', {'fields': ('content_preparation', 'execution')}),
         ('الإحصائيات', {'fields': ('views', 'likes', 'created_at', 'updated_at')}),
     )

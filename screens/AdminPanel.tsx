@@ -21,6 +21,8 @@ const emptyValues = {
   host: '',
   content_preparation: '',
   execution: '',
+  goal: '',
+  daily_tip: '',
 };
 
 export const AdminPanel: React.FC = () => {
@@ -392,6 +394,20 @@ export const AdminPanel: React.FC = () => {
                   value={values.image_url}
                   onChange={(e) => updateValue('image_url', e.target.value)}
                   placeholder="رابط الصورة (اختياري)"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
+                />
+                <textarea
+                  value={values.goal}
+                  onChange={(e) => updateValue('goal', e.target.value)}
+                  placeholder="هدف القصة"
+                  rows={2}
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
+                />
+                <textarea
+                  value={values.daily_tip}
+                  onChange={(e) => updateValue('daily_tip', e.target.value)}
+                  placeholder="نصيحة اليوم"
+                  rows={2}
                   className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
                 />
               </>

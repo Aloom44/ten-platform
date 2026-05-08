@@ -40,6 +40,8 @@ class Story(models.Model):
     content_preparation = models.CharField(max_length=200, blank=True, verbose_name="إعداد المحتوى")
     execution = models.CharField(max_length=200, blank=True, verbose_name="تنفيذ")
     is_active = models.BooleanField(default=True, verbose_name="نشط")
+    goal = models.TextField(blank=True, verbose_name="هدف القصة")
+    daily_tip = models.TextField(blank=True, verbose_name="نصيحة اليوم")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

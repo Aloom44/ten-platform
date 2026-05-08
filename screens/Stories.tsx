@@ -159,9 +159,9 @@ export const Stories: React.FC<StoriesProps> = ({ safeMode }) => {
                <div className="absolute inset-0 bg-gradient-to-t from-[#FDFCF8] via-[#FDFCF8]/10 to-transparent"></div>
                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-transparent"></div>
 
-               {/* Hero Content - Integrated with the Visuals */}
+               {/* Hero Content - Moved for better visibility */}
                <div className="absolute bottom-0 left-0 right-0 p-8 sm:p-24 text-right">
-                  <div className="flex flex-wrap items-center justify-end gap-3 mb-6">
+                  <div className="flex flex-wrap items-center justify-end gap-3 mb-4">
                     <span className="bg-sky-500 text-white px-5 py-2.5 rounded-[1.2rem] text-[10px] font-black shadow-xl shadow-sky-500/20 flex items-center gap-2 uppercase tracking-tighter">
                       <Star size={14} fill="currentColor" /> قصة مميزة
                     </span>
@@ -169,11 +169,7 @@ export const Stories: React.FC<StoriesProps> = ({ safeMode }) => {
                       <Clock size={14} className="text-emerald-500" /> {selectedStory.isGenerated ? 'استماع ذكي' : 'قراءة ممتعة'}
                     </span>
                   </div>
-                  
-                  <h1 className="text-4xl sm:text-8xl font-black text-slate-900 leading-[1] mb-2 drop-shadow-sm tracking-tight">
-                    {selectedStory.title}
-                  </h1>
-                  <div className="w-24 h-2 bg-gradient-to-l from-sky-400 to-emerald-400 rounded-full mr-1 mt-6"></div>
+                  <div className="w-24 h-2 bg-gradient-to-l from-sky-400 to-emerald-400 rounded-full mr-1"></div>
                </div>
             </div>
 
@@ -188,6 +184,13 @@ export const Stories: React.FC<StoriesProps> = ({ safeMode }) => {
                   {/* Internal Decorative Icon */}
                   <div className="absolute -top-10 -left-10 text-sky-50/50">
                     <Star size={180} fill="currentColor" strokeWidth={0} />
+                  </div>
+
+                  {/* Title Section - Moved here */}
+                  <div className="mb-12">
+                    <h1 className="text-4xl sm:text-6xl font-black text-slate-900 leading-[1.2] text-right mb-6">
+                      {selectedStory.title}
+                    </h1>
                   </div>
 
                   {/* Excerpt Block */}
@@ -219,14 +222,18 @@ export const Stories: React.FC<StoriesProps> = ({ safeMode }) => {
                           <Target size={28} />
                         </div>
                         <h4 className="text-xl font-black text-slate-800 mb-4">هدف القصة</h4>
-                        <p className="text-slate-600 font-bold leading-relaxed">تعزيز مهارات التفكير النقدي لدى الأطفال وتشجيعهم على اتخاذ قرارات آمنة في العالم الرقمي.</p>
+                        <p className="text-slate-600 font-bold leading-relaxed">
+                          {selectedStory.goal || "تعزيز مهارات التفكير النقدي لدى الأطفال وتشجيعهم على اتخاذ قرارات آمنة في العالم الرقمي."}
+                        </p>
                      </div>
                      <div className="bg-emerald-50 rounded-[2.5rem] p-8 border border-emerald-100/50 group hover:bg-emerald-100 transition-colors duration-500">
                         <div className="bg-white w-14 h-14 rounded-2xl flex items-center justify-center text-emerald-500 shadow-sm mb-6 group-hover:scale-110 transition-transform">
                           <Sparkles size={28} />
                         </div>
                         <h4 className="text-xl font-black text-slate-800 mb-4">نصيحة اليوم</h4>
-                        <p className="text-slate-600 font-bold leading-relaxed">تذكر دائماً أن الأبطال الحقيقيين هم من يشاركون أسرارهم وتجاربهم مع والديهم!</p>
+                        <p className="text-slate-600 font-bold leading-relaxed">
+                          {selectedStory.dailyTip || "تذكر دائماً أن الأبطال الحقيقيين هم من يشاركون أسرارهم وتجاربهم مع والديهم!"}
+                        </p>
                      </div>
                   </div>
 

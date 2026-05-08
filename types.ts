@@ -9,6 +9,8 @@ export interface Story {
   content?: string;
   summary?: string;
   author?: string;
+  goal?: string;
+  dailyTip?: string;
   contentPreparation?: string;
   execution?: string;
   isGenerated?: boolean;
