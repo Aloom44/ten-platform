@@ -305,6 +305,5 @@ export const Stories: React.FC<StoriesProps> = ({ safeMode }) => {
         </div>
       )}
     </div>
-    </div>
   );
 };
