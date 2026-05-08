@@ -84,64 +84,109 @@ export const Stories: React.FC<StoriesProps> = ({ safeMode }) => {
 
       {/* Story Reading Modal */}
       {selectedStory && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8 animate-in fade-in duration-300">
-          <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" onClick={() => setSelectedStory(null)}></div>
-          <div className="relative max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-white rounded-[2.5rem] shadow-2xl animate-in zoom-in-95 duration-300 scrollbar-hide">
-            {/* Header / Cover */}
-            <div className="relative h-64 sm:h-80 w-full">
-              <img src={selectedStory.image} alt={selectedStory.title} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
-              <button 
-                onClick={() => setSelectedStory(null)}
-                className="absolute top-6 right-6 bg-black/20 hover:bg-black/40 text-white p-2 rounded-full backdrop-blur-md transition-all"
-              >
-                <X size={24} />
-              </button>
+        <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 animate-in fade-in duration-300">
+          <div className="absolute inset-0 bg-slate-900/90 backdrop-blur-md" onClick={() => setSelectedStory(null)}></div>
+          
+          <div className="relative w-full max-w-4xl max-h-[95vh] overflow-y-auto bg-slate-50 rounded-t-[3rem] sm:rounded-[3rem] shadow-2xl animate-in slide-in-from-bottom sm:zoom-in-95 duration-500 scrollbar-hide">
+            
+            {/* Sticky Header for Mobile */}
+            <div className="sticky top-0 z-20 flex justify-between items-center p-6 bg-gradient-to-b from-black/50 to-transparent pointer-events-none">
+               <div className="pointer-events-auto">
+                  <button 
+                    onClick={() => setSelectedStory(null)}
+                    className="bg-white/20 hover:bg-white/40 text-white p-3 rounded-2xl backdrop-blur-xl transition-all shadow-lg active:scale-90"
+                  >
+                    <X size={24} />
+                  </button>
+               </div>
+               <div className="pointer-events-auto flex gap-2">
+                  <button className="bg-white/20 hover:bg-white/40 text-white p-3 rounded-2xl backdrop-blur-xl transition-all shadow-lg">
+                    <Heart size={24} />
+                  </button>
+               </div>
             </div>
 
-            {/* Content Body */}
-            <div className="px-8 pb-12 -mt-12 relative">
-               <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-50">
-                  <div className="flex flex-wrap items-center gap-4 mb-6">
-                    <span className="bg-sky-100 text-sky-600 px-4 py-1.5 rounded-2xl text-xs font-bold flex items-center gap-2">
-                      <BookOpen size={14} /> قصة مصورة
-                    </span>
-                    <span className="bg-slate-100 text-slate-500 px-4 py-1.5 rounded-2xl text-xs font-bold flex items-center gap-2">
-                      <Clock size={14} /> 5 دقائق قراءة
-                    </span>
-                  </div>
+            {/* Hero Image Section */}
+            <div className="relative h-[45vh] sm:h-[500px] w-full -mt-24">
+              <img src={selectedStory.image} alt={selectedStory.title} className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-slate-50/20 to-transparent"></div>
+            </div>
 
-                  <h2 className="text-3xl font-black text-slate-800 mb-6 leading-tight">{selectedStory.title}</h2>
+            {/* Content Area */}
+            <div className="px-6 sm:px-12 pb-16 -mt-32 relative z-10">
+               <div className="bg-white rounded-[2.5rem] p-8 sm:p-12 shadow-xl shadow-slate-200/50 border border-white">
                   
-                  <div className="prose prose-slate max-w-none">
-                    <p className="text-lg text-slate-700 leading-relaxed whitespace-pre-wrap font-medium">
-                      {selectedStory.content || selectedStory.excerpt}
-                    </p>
+                  {/* Category & Stats */}
+                  <div className="flex flex-wrap items-center gap-3 mb-8">
+                    <div className="bg-sky-50 text-sky-600 px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
+                      <BookOpen size={14} /> قصة مصورة
+                    </div>
+                    <div className="bg-emerald-50 text-emerald-600 px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
+                      <Clock size={14} /> 5 دقائق
+                    </div>
                   </div>
 
-                  {/* Contributors Footer */}
-                  {(selectedStory.contentPreparation || selectedStory.execution) && (
-                    <div className="mt-12 pt-8 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {/* Title & Excerpt */}
+                  <h2 className="text-3xl sm:text-5xl font-black text-slate-800 mb-6 leading-[1.1] text-right">
+                    {selectedStory.title}
+                  </h2>
+                  
+                  {selectedStory.excerpt && (
+                    <p className="text-lg font-bold text-sky-600 mb-10 leading-relaxed border-r-4 border-sky-400 pr-6">
+                      {selectedStory.excerpt}
+                    </p>
+                  )}
+
+                  {/* Main Story Text */}
+                  <div className="prose prose-slate max-w-none mb-16">
+                    <div className="text-xl sm:text-2xl text-slate-700 leading-[1.8] whitespace-pre-wrap text-right font-medium">
+                      {selectedStory.content || "جاري تجهيز محتوى القصة..."}
+                    </div>
+                  </div>
+
+                  {/* Enhanced Contributors Section */}
+                  <div className="bg-slate-50 rounded-[2rem] p-8 sm:p-10 border border-slate-100">
+                    <h4 className="text-sm font-black text-slate-400 mb-8 flex items-center gap-2 uppercase tracking-widest">
+                      <User size={16} className="text-sky-400" />
+                      فريق العمل المبدع
+                    </h4>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                       {selectedStory.contentPreparation && (
-                        <div className="flex items-center gap-3">
-                          <div className="bg-emerald-50 p-2.5 rounded-xl text-emerald-500"><User size={20} /></div>
+                        <div className="flex items-start gap-4">
+                          <div className="bg-white p-4 rounded-[1.5rem] shadow-sm text-sky-500 border border-slate-100">
+                            <BookOpen size={24} />
+                          </div>
                           <div>
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">إعداد المحتوى</p>
-                            <p className="font-bold text-slate-700">{selectedStory.contentPreparation}</p>
+                            <p className="text-xs font-black text-slate-400 mb-1">إعداد المحتوى</p>
+                            <p className="text-xl font-bold text-slate-800">{selectedStory.contentPreparation}</p>
                           </div>
                         </div>
                       )}
+                      
                       {selectedStory.execution && (
-                        <div className="flex items-center gap-3">
-                          <div className="bg-blue-50 p-2.5 rounded-xl text-blue-500"><User size={20} /></div>
+                        <div className="flex items-start gap-4">
+                          <div className="bg-white p-4 rounded-[1.5rem] shadow-sm text-emerald-500 border border-slate-100">
+                            <X size={24} className="rotate-45" /> {/* Execution icon placeholder */}
+                          </div>
                           <div>
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">تنفيذ وإخراج</p>
-                            <p className="font-bold text-slate-700">{selectedStory.execution}</p>
+                            <p className="text-xs font-black text-slate-400 mb-1">تنفيذ وإخراج</p>
+                            <p className="text-xl font-bold text-slate-800">{selectedStory.execution}</p>
                           </div>
                         </div>
                       )}
                     </div>
-                  )}
+                  </div>
+
+                  {/* Share/Action Button */}
+                  <div className="mt-12 text-center">
+                    <button 
+                      onClick={() => setSelectedStory(null)}
+                      className="inline-flex items-center gap-3 bg-slate-900 text-white px-10 py-5 rounded-[2rem] font-black text-lg hover:bg-sky-600 transition-all shadow-xl shadow-slate-200 active:scale-95"
+                    >
+                      لقد انتهيت من القراءة! 🎉
+                    </button>
+                  </div>
                </div>
             </div>
           </div>
