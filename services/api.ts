@@ -96,6 +96,8 @@ const mapVideo = (item: any, idx: number): Video => ({
   title: item.title || 'فيديو',
   duration: toDurationString(item.duration),
   thumbnail: resolveMediaUrl(item.thumbnail, `https://picsum.photos/400/250?random=${200 + idx}`),
+  videoUrl: item.video_url,
+  description: item.description,
   category: item.category,
   contentPreparation: item.content_preparation,
   execution: item.execution,

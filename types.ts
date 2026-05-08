@@ -21,6 +21,8 @@ export interface Video {
   title: string;
   duration: string;
   thumbnail: string;
+  videoUrl?: string;
+  description?: string;
   category?: 'awareness' | 'activities' | 'quick_info';
   contentPreparation?: string;
   execution?: string;
