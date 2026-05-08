@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Play, Star, ChevronLeft, ShieldCheck, Headphones, Image as ImageIcon } from 'lucide-react';
-import { Tab, Story, Video, Game } from '../types';
+import { Tab, Story, Video, Article } from '../types';
 import { api } from '../services/api';
 
 interface HomeProps {
@@ -11,21 +11,21 @@ interface HomeProps {
 export const Home: React.FC<HomeProps> = ({ onChangeTab }) => {
   const [stories, setStories] = useState<Story[]>([]);
   const [videos, setVideos] = useState<Video[]>([]);
-  const [games, setGames] = useState<Game[]>([]);
+  const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadHomeData = async () => {
       try {
         setLoading(true);
-        const [storiesData, videosData, gamesData] = await Promise.all([
+        const [storiesData, videosData, articlesData] = await Promise.all([
           api.getStories(),
           api.getVideos(),
-          api.getGames(),
+          api.getArticles(),
         ]);
         setStories(storiesData.slice(0, 3));
         setVideos(videosData.slice(0, 4));
-        setGames(gamesData.slice(0, 3));
+        setArticles(articlesData.slice(0, 2));
       } catch (error) {
         console.error('Failed to load home data', error);
       } finally {
@@ -47,7 +47,7 @@ export const Home: React.FC<HomeProps> = ({ onChangeTab }) => {
           <h2 className="text-3xl md:text-4xl font-black mb-3 leading-tight">عالمك الحقيقي<br/>أجمل وأحلى!</h2>
           <p className="opacity-90 mb-6 text-sm md:text-base max-w-md">تعلم كيف تحمي نفسك من الإنترنت وتستمتع بوقتك بعيداً عن الشاشات.</p>
           <button 
-            onClick={() => onChangeTab(Tab.GAMES)}
+            onClick={() => onChangeTab(Tab.ARTICLES)}
             className="bg-white text-emerald-600 px-6 py-3 rounded-xl font-bold shadow-md hover:shadow-xl active:scale-95 transition-all flex items-center gap-2 text-base"
           >
             <Play size={20} fill="currentColor" />
@@ -105,21 +105,46 @@ export const Home: React.FC<HomeProps> = ({ onChangeTab }) => {
         </div>
       </div>
 
-      {/* Mini Games Banner */}
+      {/* Articles Preview Section */}
       <div className="px-4">
-        <div 
-          onClick={() => onChangeTab(Tab.GAMES)}
-          className="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-3xl p-6 border-2 border-blue-200 border-dashed flex items-center justify-between cursor-pointer hover:shadow-lg active:scale-[0.98] transition-all"
-        >
-          <div>
-            <h3 className="text-xl md:text-2xl font-black text-blue-800 mb-2">اختبر ذكائك!</h3>
-            <p className="text-blue-600 text-sm md:text-base font-medium">
-              {games.length > 0 ? `يوجد ${games.length} ألعاب جاهزة الآن` : 'هل يمكنك التمييز بين الآمن والخطر؟'}
-            </p>
-          </div>
-          <div className="bg-white p-3 md:p-4 rounded-2xl shadow-md rotate-3">
-             <span className="text-4xl md:text-5xl">🛡️</span>
-          </div>
+        <div className="flex justify-between items-end mb-4">
+          <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+            <span className="w-2 h-6 bg-blue-400 rounded-full"></span>
+            مقالات مميزة
+          </h3>
+          <button onClick={() => onChangeTab(Tab.ARTICLES)} className="text-slate-400 text-sm font-bold flex items-center hover:text-slate-600">
+            المزيد <ChevronLeft size={18} />
+          </button>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {articles.length > 0 ? articles.map(article => (
+            <div 
+              key={article.id} 
+              onClick={() => onChangeTab(Tab.ARTICLES)}
+              className="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-slate-100 flex gap-4 p-3 hover:shadow-md transition-all cursor-pointer"
+            >
+              <img src={article.coverImageUrl} className="w-24 h-24 object-cover rounded-2xl flex-shrink-0" alt={article.title} />
+              <div className="flex flex-col justify-center">
+                <span className="text-[10px] font-black text-blue-500 uppercase mb-1">{article.category}</span>
+                <h4 className="font-bold text-slate-800 text-sm line-clamp-1 mb-1">{article.title}</h4>
+                <p className="text-[11px] text-slate-500 line-clamp-2">{article.summary}</p>
+              </div>
+            </div>
+          )) : (
+            <div 
+              onClick={() => onChangeTab(Tab.ARTICLES)}
+              className="col-span-full bg-gradient-to-br from-blue-50 to-indigo-50 rounded-[2rem] p-6 border-2 border-blue-100 border-dashed flex items-center justify-between cursor-pointer hover:shadow-lg active:scale-[0.98] transition-all"
+            >
+              <div>
+                <h3 className="text-xl font-black text-blue-800 mb-1">اقرأ وتعلم!</h3>
+                <p className="text-blue-600 text-sm font-medium">اكتشف مقالاتنا الجديدة حول الأمان الرقمي.</p>
+              </div>
+              <div className="bg-white p-3 rounded-2xl shadow-md rotate-3">
+                 <span className="text-3xl">📚</span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

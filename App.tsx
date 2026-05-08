@@ -4,6 +4,7 @@ import { Header } from './components/Header';
 import { Home } from './screens/Home';
 import { Stories } from './screens/Stories';
 import { Videos } from './screens/Videos';
+import { Articles } from './screens/Articles';
 import { Games } from './screens/Games';
 import { Profile } from './screens/Profile';
 import { Parents } from './screens/Parents';
@@ -51,7 +52,7 @@ function App() {
       // Pass safeMode to Stories to control AI generation
       case Tab.STORIES: return <Stories safeMode={appSettings.safeFilter} />;
       case Tab.VIDEOS: return <Videos />;
-      case Tab.GAMES: return <Games />;
+      case Tab.ARTICLES: return <Articles />;
       case Tab.ADMIN: return <AdminPanel />;
       case Tab.PROFILE: return <Profile />;
       case Tab.PODCASTS: return <Podcasts />;

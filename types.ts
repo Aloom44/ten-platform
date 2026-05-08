@@ -29,12 +29,23 @@ export interface Video {
   execution?: string;
 }
 
-export interface Game {
+export interface ArticleBlock {
+  type: 'paragraph' | 'heading' | 'quote' | 'image';
+  content: string;
+  caption?: string; // for images
+}
+
+export interface Article {
   id: string;
   title: string;
-  type: string;
-  icon: string;
-  color: string;
+  summary: string;
+  coverImageUrl?: string;
+  authorName?: string;
+  contentBlocks: ArticleBlock[];
+  category: 'awareness' | 'visual' | 'tips' | 'health' | 'safety';
+  ageGroup: string;
+  readingTime: number;
+  publishedAt: string;
   contentPreparation?: string;
   execution?: string;
 }
@@ -102,7 +113,7 @@ export enum Tab {
   HOME = 'home',
   STORIES = 'stories',
   VIDEOS = 'videos',
-  GAMES = 'games',
+  ARTICLES = 'articles',
   ADMIN = 'admin',
   PARENTS = 'parents',
   PROFILE = 'profile',

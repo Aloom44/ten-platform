@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { api } from '../services/api';
 
-type ContentType = 'story' | 'video' | 'game' | 'podcast' | 'parent_tip' | 'infographic';
+type ContentType = 'story' | 'video' | 'article' | 'podcast' | 'parent_tip' | 'infographic';
 
 const emptyValues = {
   title: '',
@@ -24,6 +24,9 @@ const emptyValues = {
   execution: '',
   goal: '',
   daily_tip: '',
+  cover_image_url: '',
+  author_name: '',
+  content_blocks: [] as any[],
 };
 
 export const AdminPanel: React.FC = () => {
@@ -42,8 +45,8 @@ export const AdminPanel: React.FC = () => {
         return 'رفع قصة جديدة';
       case 'video':
         return 'رفع فيديو جديد';
-      case 'game':
-        return 'رفع لعبة جديدة';
+      case 'article':
+        return 'رفع مقال جديد';
       case 'podcast':
         return 'رفع بودكاست جديد';
       case 'parent_tip':
@@ -114,15 +117,18 @@ export const AdminPanel: React.FC = () => {
         });
       }
 
-      if (contentType === 'game') {
-        await api.createGame({
+      if (contentType === 'article') {
+        await api.createArticle({
           title: values.title,
-          description: values.description,
-          game_type: values.game_type as 'puzzle' | 'memory' | 'educational' | 'multiplayer' | 'quiz',
+          summary: values.summary,
+          cover_image_url: values.cover_image_url,
+          author_name: values.author_name,
+          content_blocks: values.content_blocks,
+          category: values.category,
           age_group: values.age_group,
-          difficulty: values.difficulty as 'easy' | 'medium' | 'hard',
-          game_url: values.game_url,
-          is_active: true,
+          reading_time: Number(values.reading_time || 5),
+          content_preparation: values.content_preparation,
+          execution: values.execution,
         });
       }
 
@@ -175,9 +181,12 @@ export const AdminPanel: React.FC = () => {
         game_url: '',
         audio_url: '',
         author: '',
+        author_name: '',
         host: '',
         content_preparation: '',
         execution: '',
+        content_blocks: [],
+        cover_image_url: '',
       }));
     } catch (err: any) {
       const details = err?.message ? ` (${err.message})` : '';
@@ -236,7 +245,7 @@ export const AdminPanel: React.FC = () => {
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <button onClick={() => setContentType('story')} className={`rounded-xl px-3 py-2 text-sm font-bold ${contentType === 'story' ? 'bg-sky-600 text-white' : 'bg-white border border-slate-200 text-slate-700'}`}>قصة</button>
             <button onClick={() => setContentType('video')} className={`rounded-xl px-3 py-2 text-sm font-bold ${contentType === 'video' ? 'bg-sky-600 text-white' : 'bg-white border border-slate-200 text-slate-700'}`}>فيديو</button>
-            <button onClick={() => setContentType('game')} className={`rounded-xl px-3 py-2 text-sm font-bold ${contentType === 'game' ? 'bg-sky-600 text-white' : 'bg-white border border-slate-200 text-slate-700'}`}>لعبة</button>
+            <button onClick={() => setContentType('article')} className={`rounded-xl px-3 py-2 text-sm font-bold ${contentType === 'article' ? 'bg-sky-600 text-white' : 'bg-white border border-slate-200 text-slate-700'}`}>مقال</button>
             <button onClick={() => setContentType('podcast')} className={`rounded-xl px-3 py-2 text-sm font-bold ${contentType === 'podcast' ? 'bg-sky-600 text-white' : 'bg-white border border-slate-200 text-slate-700'}`}>بودكاست</button>
             <button onClick={() => setContentType('parent_tip')} className={`rounded-xl px-3 py-2 text-sm font-bold ${contentType === 'parent_tip' ? 'bg-sky-600 text-white' : 'bg-white border border-slate-200 text-slate-700'}`}>نصائح الأهل</button>
             <button onClick={() => setContentType('infographic')} className={`rounded-xl px-3 py-2 text-sm font-bold ${contentType === 'infographic' ? 'bg-sky-600 text-white' : 'bg-white border border-slate-200 text-slate-700'}`}>إنفوجرافيك</button>
@@ -277,7 +286,7 @@ export const AdminPanel: React.FC = () => {
                 required
               />
 
-              {(contentType === 'story' || contentType === 'game') && (
+              {contentType === 'story' && (
                 <select
                   value={values.difficulty}
                   onChange={(e) => updateValue('difficulty', e.target.value)}
@@ -286,6 +295,21 @@ export const AdminPanel: React.FC = () => {
                   <option value="easy">سهل</option>
                   <option value="medium">متوسط</option>
                   <option value="hard">صعب</option>
+                </select>
+              )}
+
+              {contentType === 'article' && (
+                <select
+                  value={values.category}
+                  onChange={(e) => updateValue('category', e.target.value)}
+                  className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
+                  required
+                >
+                  <option value="awareness">مقال توعوي</option>
+                  <option value="visual">مقال مصور</option>
+                  <option value="tips">نصائح رقمية</option>
+                  <option value="health">صحة رقمية</option>
+                  <option value="safety">أمان رقمي</option>
                 </select>
               )}
 
@@ -424,7 +448,7 @@ export const AdminPanel: React.FC = () => {
               </>
             )}
 
-            {(contentType === 'video' || contentType === 'game' || contentType === 'podcast' || contentType === 'infographic') && (
+            {(contentType === 'video' || contentType === 'podcast' || contentType === 'infographic') && (
               <textarea
                 value={values.description}
                 onChange={(e) => updateValue('description', e.target.value)}
@@ -433,6 +457,109 @@ export const AdminPanel: React.FC = () => {
                 className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
                 required={contentType !== 'parent_tip'}
               />
+            )}
+
+            {contentType === 'article' && (
+              <div className="space-y-4">
+                <textarea
+                  value={values.summary}
+                  onChange={(e) => updateValue('summary', e.target.value)}
+                  placeholder="ملخص المقال"
+                  rows={2}
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
+                  required
+                />
+                <input
+                  value={values.cover_image_url}
+                  onChange={(e) => updateValue('cover_image_url', e.target.value)}
+                  placeholder="رابط صورة الغلاف"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
+                />
+                <div className="grid grid-cols-2 gap-3">
+                  <input
+                    value={values.author_name}
+                    onChange={(e) => updateValue('author_name', e.target.value)}
+                    placeholder="اسم الكاتب"
+                    className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
+                  />
+                  <input
+                    type="number"
+                    value={values.reading_time}
+                    onChange={(e) => updateValue('reading_time', e.target.value)}
+                    placeholder="مدة القراءة"
+                    className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
+                  />
+                </div>
+
+                {/* Article Blocks Editor */}
+                <div className="rounded-2xl border border-slate-200 p-4 space-y-3">
+                  <h4 className="font-bold text-slate-700 text-sm">محتوى المقال (Blocks)</h4>
+                  {values.content_blocks.map((block: any, idx: number) => (
+                    <div key={idx} className="bg-slate-50 p-3 rounded-xl relative">
+                      <button 
+                        type="button"
+                        onClick={() => {
+                          const newBlocks = [...values.content_blocks];
+                          newBlocks.splice(idx, 1);
+                          setValues(prev => ({ ...prev, content_blocks: newBlocks }));
+                        }}
+                        className="absolute -top-2 -left-2 bg-red-100 text-red-600 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold"
+                      >
+                        ×
+                      </button>
+                      <select 
+                        value={block.type}
+                        onChange={(e) => {
+                          const newBlocks = [...values.content_blocks];
+                          newBlocks[idx].type = e.target.value;
+                          setValues(prev => ({ ...prev, content_blocks: newBlocks }));
+                        }}
+                        className="mb-2 w-full bg-white border border-slate-200 rounded-lg p-2 text-xs font-bold"
+                      >
+                        <option value="paragraph">فقرة</option>
+                        <option value="heading">عنوان فرعي</option>
+                        <option value="quote">اقتباس</option>
+                        <option value="image">صورة داخلية</option>
+                      </select>
+                      <textarea
+                        value={block.content}
+                        onChange={(e) => {
+                          const newBlocks = [...values.content_blocks];
+                          newBlocks[idx].content = e.target.value;
+                          setValues(prev => ({ ...prev, content_blocks: newBlocks }));
+                        }}
+                        placeholder={block.type === 'image' ? "رابط الصورة" : "المحتوى"}
+                        rows={block.type === 'paragraph' ? 3 : 1}
+                        className="w-full bg-white border border-slate-200 rounded-lg p-2 text-xs outline-none"
+                      />
+                      {block.type === 'image' && (
+                        <input 
+                          value={block.caption || ''}
+                          onChange={(e) => {
+                            const newBlocks = [...values.content_blocks];
+                            newBlocks[idx].caption = e.target.value;
+                            setValues(prev => ({ ...prev, content_blocks: newBlocks }));
+                          }}
+                          placeholder="وصف الصورة (Caption)"
+                          className="w-full mt-2 bg-white border border-slate-200 rounded-lg p-2 text-[10px] font-bold"
+                        />
+                      )}
+                    </div>
+                  ))}
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      setValues(prev => ({ 
+                        ...prev, 
+                        content_blocks: [...prev.content_blocks, { type: 'paragraph', content: '' }] 
+                      }));
+                    }}
+                    className="w-full bg-slate-100 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-sky-50 hover:text-sky-600 transition-colors"
+                  >
+                    + إضافة block جديد
+                  </button>
+                </div>
+              </div>
             )}
 
             {contentType === 'video' && (

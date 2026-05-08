@@ -114,6 +114,21 @@ const mapGame = (item: any, idx: number): Game => ({
   execution: item.execution,
 });
 
+const mapArticle = (item: any, idx: number): Article => ({
+  id: String(item.id),
+  title: item.title || 'مقال',
+  summary: item.summary,
+  coverImageUrl: item.cover_image_url,
+  authorName: item.author_name,
+  contentBlocks: item.content_blocks || [],
+  category: item.category,
+  ageGroup: item.age_group,
+  readingTime: item.reading_time,
+  publishedAt: item.published_at,
+  contentPreparation: item.content_preparation,
+  execution: item.execution,
+});
+
 const mapPodcast = (item: any, idx: number): Podcast => ({
   id: String(item.id),
   title: item.title || 'بودكاست',
@@ -229,6 +244,15 @@ export const api = {
     }
     await new Promise((r) => setTimeout(r, 300));
     return MOCK_VIDEOS;
+  },
+
+  getArticles: async (): Promise<Article[]> => {
+    if (USE_REAL_API) {
+      const data = await fetchJson('/content/articles/');
+      return toArray<any>(data).map(mapArticle);
+    }
+    await new Promise((r) => setTimeout(r, 300));
+    return []; // No mock articles yet
   },
 
   getGames: async (): Promise<Game[]> => {
@@ -402,6 +426,24 @@ export const api = {
     is_active?: boolean;
   }): Promise<any> => {
     return fetchJson('/content/infographics/', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
+
+  createArticle: async (payload: {
+    title: string;
+    summary: string;
+    cover_image_url?: string;
+    author_name?: string;
+    content_blocks: any[];
+    category: string;
+    age_group: string;
+    reading_time: number;
+    content_preparation?: string;
+    execution?: string;
+  }): Promise<any> => {
+    return fetchJson('/content/articles/', {
       method: 'POST',
       body: JSON.stringify(payload),
     });

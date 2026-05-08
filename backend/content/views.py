@@ -3,11 +3,11 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Story, Game, Video, Caricature, Podcast, Comment, UserProgress, Category, ParentTip, Infographic
+from .models import Story, Game, Video, Caricature, Podcast, Comment, UserProgress, Category, ParentTip, Infographic, Article
 from .serializers import (
     StorySerializer, GameSerializer, VideoSerializer, CaricatureSerializer,
     PodcastSerializer, CommentSerializer, UserProgressSerializer, CategorySerializer,
-    ParentTipSerializer, InfographicSerializer
+    ParentTipSerializer, InfographicSerializer, ArticleSerializer
 )
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -65,6 +65,15 @@ class GameViewSet(viewsets.ModelViewSet):
             game.save()
             return Response({'rating': game.rating})
         return Response({'error': 'Invalid rating'}, status=status.HTTP_400_BAD_REQUEST)
+
+class ArticleViewSet(viewsets.ModelViewSet):
+    queryset = Article.objects.filter(is_active=True)
+    serializer_class = ArticleSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['age_group', 'category']
+    search_fields = ['title', 'summary', 'author_name']
+    ordering_fields = ['published_at', 'reading_time']
 
 class VideoViewSet(viewsets.ModelViewSet):
     queryset = Video.objects.filter(is_active=True)

@@ -280,3 +280,36 @@ class UserProgress(models.Model):
     
     def __str__(self):
         return f"{self.user.username} - {self.content_type}"
+
+
+class Article(models.Model):
+    """المقالات"""
+    ARTICLE_CATEGORY_CHOICES = [
+        ('awareness', 'مقال توعوي'),
+        ('visual', 'مقال مصور'),
+        ('tips', 'نصائح رقمية'),
+        ('health', 'صحة رقمية'),
+        ('safety', 'أمان رقمي'),
+    ]
+    
+    title = models.CharField(max_length=200, verbose_name="العنوان")
+    summary = models.TextField(max_length=500, verbose_name="الملخص")
+    cover_image_url = models.URLField(blank=True, verbose_name="رابط صورة الغلاف")
+    author_name = models.CharField(max_length=100, blank=True, verbose_name="اسم الكاتب")
+    content_blocks = models.JSONField(default=list, verbose_name="محتوى المقال (Blocks)")
+    category = models.CharField(max_length=50, choices=ARTICLE_CATEGORY_CHOICES, verbose_name="الفئة")
+    age_group = models.CharField(max_length=20, verbose_name="الفئة العمرية")
+    reading_time = models.IntegerField(default=5, verbose_name="مدة القراءة (دقائق)")
+    content_preparation = models.CharField(max_length=200, blank=True, verbose_name="إعداد المحتوى")
+    execution = models.CharField(max_length=200, blank=True, verbose_name="تنفيذ")
+    is_active = models.BooleanField(default=True, verbose_name="نشط")
+    published_at = models.DateTimeField(auto_now_add=True, verbose_name="تاريخ النشر")
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = "مقال"
+        verbose_name_plural = "المقالات"
+        ordering = ['-published_at']
+    
+    def __str__(self):
+        return self.title

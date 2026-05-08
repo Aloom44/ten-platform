@@ -1,6 +1,6 @@
 
 import { Story, Video, Game, UserProfile, Podcast, Caricature, TriviaQuestion } from './types';
-import { BookOpen, Video as VideoIcon, Gamepad2, User, Home, ShieldAlert, BarChart3 } from 'lucide-react';
+import { BookOpen, Video as VideoIcon, Newspaper, User, Home, ShieldAlert, BarChart3 } from 'lucide-react';
 
 export const APP_NAME = "عالم ألوان";
 
@@ -171,7 +171,7 @@ export const NAV_ITEMS = [
   { id: 'stories', label: 'قصص', icon: BookOpen },
   { id: 'videos', label: 'فيديو', icon: VideoIcon },
   { id: 'infographics', label: 'إنفوجرافيك', icon: BarChart3 },
-  { id: 'games', label: 'تحديات', icon: Gamepad2 },
+  { id: 'articles', label: 'مقالات', icon: Newspaper },
   { id: 'admin', label: 'إدارة', icon: ShieldAlert },
   { id: 'profile', label: 'بطلي', icon: User },
 ];

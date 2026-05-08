@@ -1,5 +1,19 @@
 from django.contrib import admin
-from .models import Category, Story, Game, Video, Caricature, Podcast, Comment, UserProgress, ParentTip, Infographic
+from .models import Category, Story, Game, Video, Caricature, Podcast, Comment, UserProgress, ParentTip, Infographic, Article
+
+@admin.register(Article)
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ['title', 'category', 'age_group', 'author_name', 'is_active', 'published_at']
+    list_filter = ['is_active', 'category', 'age_group']
+    search_fields = ['title', 'summary', 'author_name']
+    readonly_fields = ['published_at', 'updated_at']
+    fieldsets = (
+        (None, {'fields': ('title', 'summary', 'cover_image_url', 'author_name', 'category')}),
+        ('المحتوى', {'fields': ('content_blocks',)}),
+        ('التفاصيل', {'fields': ('age_group', 'reading_time', 'is_active')}),
+        ('فريق العمل', {'fields': ('content_preparation', 'execution')}),
+        ('التواريخ', {'fields': ('published_at', 'updated_at')}),
+    )
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
