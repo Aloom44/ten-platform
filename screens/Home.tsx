@@ -128,7 +128,7 @@ export const Home: React.FC<HomeProps> = ({ onChangeTab }) => {
         <div className="flex justify-between items-end mb-4">
           <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
             <span className="w-2 h-6 bg-red-400 rounded-full"></span>
-            نصائح هامة
+            فيديوهات ألوان
           </h3>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
