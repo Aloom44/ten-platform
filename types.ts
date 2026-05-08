@@ -61,6 +61,18 @@ export interface ParentTip {
   createdAt?: string;
 }
 
+export interface Infographic {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  category: 'digital_awareness' | 'positive_behavior' | 'online_safety' | 'health_habits' | 'quick_info';
+  age_group: string;
+  contentPreparation?: string;
+  execution?: string;
+  createdAt?: string;
+}
+
 export interface UserProfile {
   name: string;
   level: number;
@@ -86,7 +98,8 @@ export enum Tab {
   PARENTS = 'parents',
   PROFILE = 'profile',
   PODCASTS = 'podcasts',
-  CARICATURES = 'caricatures'
+  CARICATURES = 'caricatures',
+  INFOGRAPHICS = 'infographics'
 }
 
 // Multiplayer Specific Types

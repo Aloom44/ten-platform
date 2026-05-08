@@ -196,6 +196,38 @@ class ParentTip(models.Model):
         return self.title
 
 
+class Infographic(models.Model):
+    """الإنفوجرافيك"""
+    CATEGORY_CHOICES = [
+        ('digital_awareness', 'توعية رقمية'),
+        ('positive_behavior', 'سلوكيات إيجابية'),
+        ('online_safety', 'الأمان على الإنترنت'),
+        ('health_habits', 'الصحة والعادات'),
+        ('quick_info', 'معلومات سريعة'),
+    ]
+    
+    title = models.CharField(max_length=200, verbose_name="العنوان")
+    description = models.TextField(blank=True, verbose_name="وصف قصير")
+    image = models.ImageField(upload_to='infographics/', verbose_name="الصورة")
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, verbose_name="التصنيف")
+    age_group = models.CharField(max_length=20, verbose_name="الفئة العمرية")
+    content_preparation = models.CharField(max_length=200, blank=True, verbose_name="إعداد المحتوى")
+    execution = models.CharField(max_length=200, blank=True, verbose_name="تنفيذ")
+    views = models.IntegerField(default=0, verbose_name="المشاهدات")
+    likes = models.IntegerField(default=0, verbose_name="الإعجابات")
+    is_active = models.BooleanField(default=True, verbose_name="نشط")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = "إنفوجرافيك"
+        verbose_name_plural = "الإنفوجرافيك"
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return self.title
+
+
 class Comment(models.Model):
     """التعليقات"""
     CONTENT_TYPE_CHOICES = [
@@ -205,6 +237,7 @@ class Comment(models.Model):
         ('podcast', 'بودكاست'),
         ('caricature', 'كاريكاتير'),
         ('parent_tip', 'نصيحة لولي الأمر'),
+        ('infographic', 'إنفوجرافيك'),
     ]
     
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="المستخدم")

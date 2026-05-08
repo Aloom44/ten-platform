@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { api } from '../services/api';
 
-type ContentType = 'story' | 'video' | 'game' | 'podcast' | 'parent_tip';
+type ContentType = 'story' | 'video' | 'game' | 'podcast' | 'parent_tip' | 'infographic';
 
 const emptyValues = {
   title: '',
@@ -45,6 +45,8 @@ export const AdminPanel: React.FC = () => {
         return 'رفع بودكاست جديد';
       case 'parent_tip':
         return 'إضافة نصيحة لأولياء الأمور';
+      case 'infographic':
+        return 'إضافة إنفوجرافيك جديد';
       default:
         return 'رفع محتوى';
     }
@@ -146,6 +148,18 @@ export const AdminPanel: React.FC = () => {
         });
       }
 
+      if (contentType === 'infographic') {
+        await api.createInfographic({
+          title: values.title,
+          description: values.description,
+          category: values.category,
+          age_group: values.age_group,
+          content_preparation: values.content_preparation,
+          execution: values.execution,
+          is_active: true,
+        });
+      }
+
       setMessage('تم رفع المحتوى بنجاح.');
       setValues((prev) => ({
         ...prev,
@@ -221,6 +235,7 @@ export const AdminPanel: React.FC = () => {
             <button onClick={() => setContentType('game')} className={`rounded-xl px-3 py-2 text-sm font-bold ${contentType === 'game' ? 'bg-sky-600 text-white' : 'bg-white border border-slate-200 text-slate-700'}`}>لعبة</button>
             <button onClick={() => setContentType('podcast')} className={`rounded-xl px-3 py-2 text-sm font-bold ${contentType === 'podcast' ? 'bg-sky-600 text-white' : 'bg-white border border-slate-200 text-slate-700'}`}>بودكاست</button>
             <button onClick={() => setContentType('parent_tip')} className={`rounded-xl px-3 py-2 text-sm font-bold ${contentType === 'parent_tip' ? 'bg-sky-600 text-white' : 'bg-white border border-slate-200 text-slate-700'}`}>نصائح الأهل</button>
+            <button onClick={() => setContentType('infographic')} className={`rounded-xl px-3 py-2 text-sm font-bold ${contentType === 'infographic' ? 'bg-sky-600 text-white' : 'bg-white border border-slate-200 text-slate-700'}`}>إنفوجرافيك</button>
           </div>
 
           <form onSubmit={onSubmitContent} className="space-y-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -320,6 +335,21 @@ export const AdminPanel: React.FC = () => {
                   <option value="online_safety">الأمان على الإنترنت</option>
                 </select>
               )}
+
+              {contentType === 'infographic' && (
+                <select
+                  value={values.category}
+                  onChange={(e) => updateValue('category', e.target.value)}
+                  className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
+                  required
+                >
+                  <option value="digital_awareness">توعية رقمية</option>
+                  <option value="positive_behavior">سلوكيات إيجابية</option>
+                  <option value="online_safety">الأمان على الإنترنت</option>
+                  <option value="health_habits">الصحة والعادات</option>
+                  <option value="quick_info">معلومات سريعة</option>
+                </select>
+              )}
             </div>
 
             {contentType === 'story' && (
@@ -360,12 +390,12 @@ export const AdminPanel: React.FC = () => {
               </>
             )}
 
-            {(contentType === 'video' || contentType === 'game' || contentType === 'podcast') && (
+            {(contentType === 'video' || contentType === 'game' || contentType === 'podcast' || contentType === 'infographic') && (
               <textarea
                 value={values.description}
                 onChange={(e) => updateValue('description', e.target.value)}
-                placeholder="الوصف"
-                rows={5}
+                placeholder={contentType === 'infographic' ? "وصف قصير" : "الوصف"}
+                rows={contentType === 'infographic' ? 3 : 5}
                 className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
                 required={contentType !== 'parent_tip'}
               />

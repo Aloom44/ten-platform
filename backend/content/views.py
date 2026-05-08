@@ -3,11 +3,11 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Story, Game, Video, Caricature, Podcast, Comment, UserProgress, Category, ParentTip
+from .models import Story, Game, Video, Caricature, Podcast, Comment, UserProgress, Category, ParentTip, Infographic
 from .serializers import (
     StorySerializer, GameSerializer, VideoSerializer, CaricatureSerializer,
     PodcastSerializer, CommentSerializer, UserProgressSerializer, CategorySerializer,
-    ParentTipSerializer
+    ParentTipSerializer, InfographicSerializer
 )
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -143,6 +143,29 @@ class ParentTipViewSet(viewsets.ModelViewSet):
     filterset_fields = ['category']
     search_fields = ['title', 'content']
     ordering_fields = ['created_at']
+
+class InfographicViewSet(viewsets.ModelViewSet):
+    queryset = Infographic.objects.filter(is_active=True)
+    serializer_class = InfographicSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['age_group', 'category']
+    search_fields = ['title', 'description']
+    ordering_fields = ['created_at', 'views', 'likes']
+    
+    @action(detail=True, methods=['post'])
+    def increment_views(self, request, pk=None):
+        infographic = self.get_object()
+        infographic.views += 1
+        infographic.save()
+        return Response({'views': infographic.views})
+    
+    @action(detail=True, methods=['post'])
+    def like(self, request, pk=None):
+        infographic = self.get_object()
+        infographic.likes += 1
+        infographic.save()
+        return Response({'likes': infographic.likes})
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.filter(is_approved=True)

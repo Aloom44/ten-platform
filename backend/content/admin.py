@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Story, Game, Video, Caricature, Podcast, Comment, UserProgress, ParentTip
+from .models import Category, Story, Game, Video, Caricature, Podcast, Comment, UserProgress, ParentTip, Infographic
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -82,6 +82,19 @@ class ParentTipAdmin(admin.ModelAdmin):
         ('التفاصيل', {'fields': ('is_active',)}),
         ('فريق العمل', {'fields': ('content_preparation', 'execution')}),
         ('التواريخ', {'fields': ('created_at', 'updated_at')}),
+    )
+
+@admin.register(Infographic)
+class InfographicAdmin(admin.ModelAdmin):
+    list_display = ['title', 'category', 'age_group', 'views', 'likes', 'is_active', 'created_at']
+    list_filter = ['is_active', 'category', 'age_group']
+    search_fields = ['title', 'description']
+    readonly_fields = ['views', 'likes', 'created_at', 'updated_at']
+    fieldsets = (
+        (None, {'fields': ('title', 'description', 'image', 'category')}),
+        ('التفاصيل', {'fields': ('age_group', 'is_active')}),
+        ('فريق العمل', {'fields': ('content_preparation', 'execution')}),
+        ('الإحصائيات', {'fields': ('views', 'likes', 'created_at', 'updated_at')}),
     )
 
 @admin.register(Comment)

@@ -10,6 +10,7 @@ import { Parents } from './screens/Parents';
 import { Podcasts } from './screens/Podcasts';
 import { Caricatures } from './screens/Caricatures';
 import { AdminPanel } from './screens/AdminPanel';
+import { Infographics } from './screens/Infographics';
 import { Tab, AppSettings } from './types';
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
       case Tab.PROFILE: return <Profile />;
       case Tab.PODCASTS: return <Podcasts />;
       case Tab.CARICATURES: return <Caricatures />;
+      case Tab.INFOGRAPHICS: return <Infographics />;
       case Tab.PARENTS: return (
         <Parents 
           onBack={() => setCurrentTab(Tab.HOME)} 

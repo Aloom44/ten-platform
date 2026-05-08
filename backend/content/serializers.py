@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Story, Game, Video, Caricature, Podcast, Comment, UserProgress, Category, ParentTip
+from .models import Story, Game, Video, Caricature, Podcast, Comment, UserProgress, Category, ParentTip, Infographic
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,6 +34,11 @@ class PodcastSerializer(serializers.ModelSerializer):
 class ParentTipSerializer(serializers.ModelSerializer):
     class Meta:
         model = ParentTip
+        fields = '__all__'
+
+class InfographicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Infographic
         fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):

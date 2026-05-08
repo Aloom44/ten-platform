@@ -1,5 +1,5 @@
 
-import { Story, UserProfile, AppSettings, Video, Game, Podcast, Caricature, ParentTip } from '../types';
+import { Story, UserProfile, AppSettings, Video, Game, Podcast, Caricature, ParentTip, Infographic } from '../types';
 import {
   MOCK_STORIES,
   MOCK_PROFILE,
@@ -136,6 +136,18 @@ const mapParentTip = (item: any): ParentTip => ({
   createdAt: item.created_at,
 });
 
+const mapInfographic = (item: any, idx: number): Infographic => ({
+  id: String(item.id),
+  title: item.title || 'إنفوجرافيك',
+  description: item.description || '',
+  image: resolveMediaUrl(item.image, `https://picsum.photos/600/800?random=${500 + idx}`),
+  category: item.category,
+  age_group: item.age_group || '8-12',
+  contentPreparation: item.content_preparation,
+  execution: item.execution,
+  createdAt: item.created_at,
+});
+
 // Get auth token from localStorage
 const getAuthToken = () => {
   return localStorage.getItem('auth_token');
@@ -247,6 +259,15 @@ export const api = {
     return [];
   },
 
+  getInfographics: async (): Promise<Infographic[]> => {
+    if (USE_REAL_API) {
+      const data = await fetchJson('/content/infographics/');
+      return toArray<any>(data).map(mapInfographic);
+    }
+    await new Promise((r) => setTimeout(r, 300));
+    return [];
+  },
+
   saveStory: async (story: Partial<Story>): Promise<Story> => {
     if (USE_REAL_API) {
       return fetchJson('/content/stories/', {
@@ -353,6 +374,21 @@ export const api = {
     is_active?: boolean;
   }): Promise<any> => {
     return fetchJson('/content/parent-tips/', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
+
+  createInfographic: async (payload: {
+    title: string;
+    description: string;
+    category: string;
+    age_group: string;
+    content_preparation?: string;
+    execution?: string;
+    is_active?: boolean;
+  }): Promise<any> => {
+    return fetchJson('/content/infographics/', {
       method: 'POST',
       body: JSON.stringify(payload),
     });
