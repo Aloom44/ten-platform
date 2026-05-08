@@ -60,9 +60,15 @@ export const Podcasts: React.FC = () => {
               <div className="flex-1">
                 <h3 className="font-bold text-slate-800 text-lg">{podcast.title}</h3>
                 <p className="text-slate-400 text-xs font-medium mb-2">تقديم: {podcast.host}</p>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 mb-2">
                    <span className="bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md text-[10px] font-bold">{podcast.duration}</span>
                 </div>
+                {(podcast.contentPreparation || podcast.execution) && (
+                  <div className="flex gap-3 text-[10px] text-slate-400 border-t border-slate-50 pt-2">
+                    {podcast.contentPreparation && <span>إعداد: {podcast.contentPreparation}</span>}
+                    {podcast.execution && <span>تنفيذ: {podcast.execution}</span>}
+                  </div>
+                )}
               </div>
 
               <button 

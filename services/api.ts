@@ -1,5 +1,5 @@
 
-import { Story, UserProfile, AppSettings, Video, Game, Podcast, Caricature } from '../types';
+import { Story, UserProfile, AppSettings, Video, Game, Podcast, Caricature, ParentTip } from '../types';
 import {
   MOCK_STORIES,
   MOCK_PROFILE,
@@ -81,6 +81,8 @@ const mapStory = (item: any, idx: number): Story => ({
   excerpt: item.summary || (item.content ? String(item.content).slice(0, 120) : ''),
   image: resolveMediaUrl(item.image, `https://picsum.photos/400/300?random=${100 + idx}`),
   color: STORY_COLORS[idx % STORY_COLORS.length],
+  contentPreparation: item.content_preparation,
+  execution: item.execution,
 });
 
 const mapVideo = (item: any, idx: number): Video => ({
@@ -88,6 +90,9 @@ const mapVideo = (item: any, idx: number): Video => ({
   title: item.title || 'فيديو',
   duration: toDurationString(item.duration),
   thumbnail: resolveMediaUrl(item.thumbnail, `https://picsum.photos/400/250?random=${200 + idx}`),
+  category: item.category,
+  contentPreparation: item.content_preparation,
+  execution: item.execution,
 });
 
 const mapGame = (item: any, idx: number): Game => ({
@@ -96,6 +101,8 @@ const mapGame = (item: any, idx: number): Game => ({
   type: gameTypeLabel(item.game_type),
   icon: GAME_TYPE_ICONS[item.game_type] || '🎮',
   color: GAME_COLORS[idx % GAME_COLORS.length],
+  contentPreparation: item.content_preparation,
+  execution: item.execution,
 });
 
 const mapPodcast = (item: any, idx: number): Podcast => ({
@@ -105,6 +112,8 @@ const mapPodcast = (item: any, idx: number): Podcast => ({
   host: item.host || 'ضيف البرنامج',
   image: resolveMediaUrl(item.thumbnail, `https://picsum.photos/200/200?random=${300 + idx}`),
   color: idx % 2 === 0 ? 'bg-emerald-100' : 'bg-orange-100',
+  contentPreparation: item.content_preparation,
+  execution: item.execution,
 });
 
 const mapCaricature = (item: any, idx: number): Caricature => ({
@@ -112,6 +121,19 @@ const mapCaricature = (item: any, idx: number): Caricature => ({
   title: item.title || 'كاريكاتير',
   image: resolveMediaUrl(item.image, `https://picsum.photos/400/400?random=${400 + idx}`),
   description: item.description || 'بدون وصف',
+  contentPreparation: item.content_preparation,
+  execution: item.execution,
+});
+
+const mapParentTip = (item: any): ParentTip => ({
+  id: String(item.id),
+  title: item.title,
+  content: item.content,
+  image: resolveMediaUrl(item.image),
+  category: item.category,
+  contentPreparation: item.content_preparation,
+  execution: item.execution,
+  createdAt: item.created_at,
 });
 
 // Get auth token from localStorage
@@ -215,6 +237,16 @@ export const api = {
     return MOCK_CARICATURES;
   },
 
+  getParentTips: async (category?: string): Promise<ParentTip[]> => {
+    if (USE_REAL_API) {
+      const endpoint = category ? `/content/parent-tips/?category=${category}` : '/content/parent-tips/';
+      const data = await fetchJson(endpoint);
+      return toArray<any>(data).map(mapParentTip);
+    }
+    // Return empty array for mock if not implemented
+    return [];
+  },
+
   saveStory: async (story: Partial<Story>): Promise<Story> => {
     if (USE_REAL_API) {
       return fetchJson('/content/stories/', {
@@ -250,6 +282,8 @@ export const api = {
     difficulty: 'easy' | 'medium' | 'hard';
     reading_time: number;
     author?: string;
+    content_preparation?: string;
+    execution?: string;
     is_active?: boolean;
   }): Promise<any> => {
     return fetchJson('/content/stories/', {
@@ -265,6 +299,8 @@ export const api = {
     duration: number;
     age_group: string;
     category: string;
+    content_preparation?: string;
+    execution?: string;
     is_active?: boolean;
   }): Promise<any> => {
     return fetchJson('/content/videos/', {
@@ -280,6 +316,8 @@ export const api = {
     age_group: string;
     difficulty: 'easy' | 'medium' | 'hard';
     game_url?: string;
+    content_preparation?: string;
+    execution?: string;
     is_active?: boolean;
   }): Promise<any> => {
     return fetchJson('/content/games/', {
@@ -296,9 +334,25 @@ export const api = {
     age_group: string;
     category: string;
     host?: string;
+    content_preparation?: string;
+    execution?: string;
     is_active?: boolean;
   }): Promise<any> => {
     return fetchJson('/content/podcasts/', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
+
+  createParentTip: async (payload: {
+    title: string;
+    content: string;
+    category: string;
+    content_preparation?: string;
+    execution?: string;
+    is_active?: boolean;
+  }): Promise<any> => {
+    return fetchJson('/content/parent-tips/', {
       method: 'POST',
       body: JSON.stringify(payload),
     });

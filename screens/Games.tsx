@@ -73,8 +73,13 @@ export const Games: React.FC = () => {
           >
             <div className="text-5xl drop-shadow-sm filter">{game.icon}</div>
             <div>
-              <h3 className="font-bold text-slate-800 text-sm">{game.title}</h3>
-              <span className="text-[10px] font-bold opacity-60 uppercase tracking-wider">{game.type}</span>
+              <h3 className="font-bold text-slate-800 text-sm mb-0.5">{game.title}</h3>
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[10px] font-bold opacity-60 uppercase tracking-wider">{game.type}</span>
+                {(game.contentPreparation || game.execution) && (
+                  <span className="text-[8px] opacity-40">بواسطة الطلاب</span>
+                )}
+              </div>
             </div>
           </button>
         ))}

@@ -5,7 +5,9 @@ export interface Story {
   excerpt: string;
   image: string;
   color: string;
-  isGenerated?: boolean; // Added to distinguish AI stories
+  contentPreparation?: string;
+  execution?: string;
+  isGenerated?: boolean;
 }
 
 export interface Video {
@@ -13,6 +15,9 @@ export interface Video {
   title: string;
   duration: string;
   thumbnail: string;
+  category?: 'awareness' | 'activities' | 'quick_info';
+  contentPreparation?: string;
+  execution?: string;
 }
 
 export interface Game {
@@ -21,6 +26,8 @@ export interface Game {
   type: string;
   icon: string;
   color: string;
+  contentPreparation?: string;
+  execution?: string;
 }
 
 export interface Podcast {
@@ -30,6 +37,8 @@ export interface Podcast {
   host: string;
   image: string;
   color: string;
+  contentPreparation?: string;
+  execution?: string;
 }
 
 export interface Caricature {
@@ -37,6 +46,19 @@ export interface Caricature {
   title: string;
   image: string;
   description: string;
+  contentPreparation?: string;
+  execution?: string;
+}
+
+export interface ParentTip {
+  id: string;
+  title: string;
+  content: string;
+  image: string;
+  category: 'protection' | 'screen_time' | 'digital_edu' | 'online_safety';
+  contentPreparation?: string;
+  execution?: string;
+  createdAt?: string;
 }
 
 export interface UserProfile {

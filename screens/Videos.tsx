@@ -23,6 +23,19 @@ export const Videos: React.FC = () => {
     loadVideos();
   }, []);
 
+  const getCategoryInfo = (category?: string) => {
+    switch (category) {
+      case 'awareness':
+        return { label: 'فيديو توعوي', color: 'bg-blue-100 text-blue-700' };
+      case 'activities':
+        return { label: 'أنشطة وتحديات', color: 'bg-emerald-100 text-emerald-700' };
+      case 'quick_info':
+        return { label: 'معلومات سريعة', color: 'bg-amber-100 text-amber-700' };
+      default:
+        return { label: 'فيديو', color: 'bg-slate-100 text-slate-700' };
+    }
+  };
+
   return (
     <div className="px-4 pb-24 pt-4">
       {loading && <p className="text-sm text-slate-500 mb-4">جاري تحميل الفيديوهات...</p>}
@@ -40,8 +53,15 @@ export const Videos: React.FC = () => {
               </span>
             </div>
             <div className="p-4">
-              <h3 className="font-bold text-slate-800 text-sm mb-1">{video.title}</h3>
-              <p className="text-xs text-slate-400">تعليمي • ممتع</p>
+              <h3 className="font-bold text-slate-800 text-sm mb-2">{video.title}</h3>
+              <div className="flex flex-wrap gap-2">
+                <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${getCategoryInfo(video.category).color}`}>
+                  {getCategoryInfo(video.category).label}
+                </span>
+                {video.contentPreparation && (
+                  <span className="text-[10px] text-slate-400">إعداد: {video.contentPreparation}</span>
+                )}
+              </div>
             </div>
           </div>
         ))}

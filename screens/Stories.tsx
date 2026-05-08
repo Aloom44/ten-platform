@@ -56,11 +56,17 @@ export const Stories: React.FC<StoriesProps> = ({ safeMode }) => {
                   قصة مصورة
                 </div>
                 <h3 className="text-lg font-bold text-slate-800 leading-tight mb-2">{story.title}</h3>
-                <div className="flex items-center gap-3 text-slate-400 text-xs font-medium">
+                <div className="flex items-center gap-3 text-slate-400 text-xs font-medium mb-2">
                   <span className="flex items-center gap-1"><Clock size={12} /> 5 دقائق</span>
                   <span>•</span>
                   <span>عربي</span>
                 </div>
+                {(story.contentPreparation || story.execution) && (
+                  <div className="flex gap-3 text-[10px] text-slate-400 border-t border-slate-50 pt-2">
+                    {story.contentPreparation && <span>إعداد: {story.contentPreparation}</span>}
+                    {story.execution && <span>تنفيذ: {story.execution}</span>}
+                  </div>
+                )}
               </div>
             </div>
           </div>

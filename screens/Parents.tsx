@@ -1,7 +1,6 @@
 
-import React, { useState, useEffect } from 'react';
-import { PARENT_TIPS } from '../constants';
-import { AppSettings } from '../types';
+import { AppSettings, ParentTip } from '../types';
+import { api } from '../services/api';
 import { 
   ArrowLeft, 
   ShieldAlert, 
@@ -28,6 +27,8 @@ export const Parents: React.FC<ParentsProps> = ({ onBack, currentSettings, onUpd
   const [pin, setPin] = useState('');
   const [error, setError] = useState('');
   const [saved, setSaved] = useState(false);
+  const [tips, setTips] = useState<ParentTip[]>([]);
+  const [loadingTips, setLoadingTips] = useState(true);
 
   // Reset saved toast after 3 seconds
   useEffect(() => {
@@ -36,6 +37,41 @@ export const Parents: React.FC<ParentsProps> = ({ onBack, currentSettings, onUpd
       return () => clearTimeout(timer);
     }
   }, [saved]);
+
+  useEffect(() => {
+    const loadTips = async () => {
+      try {
+        setLoadingTips(true);
+        const data = await api.getParentTips();
+        setTips(data);
+      } catch (err) {
+        console.error('Failed to load parent tips', err);
+      } finally {
+        setLoadingTips(false);
+      }
+    };
+    loadTips();
+  }, []);
+
+  const getTipIcon = (category: string) => {
+    switch (category) {
+      case 'protection': return <ShieldAlert size={20} />;
+      case 'screen_time': return <Clock size={20} />;
+      case 'digital_edu': return <CheckCircle size={20} />;
+      case 'online_safety': return <Lock size={20} />;
+      default: return <ShieldAlert size={20} />;
+    }
+  };
+
+  const getTipColor = (category: string) => {
+    switch (category) {
+      case 'protection': return 'bg-red-100 text-red-600';
+      case 'screen_time': return 'bg-blue-100 text-blue-600';
+      case 'digital_edu': return 'bg-emerald-100 text-emerald-600';
+      case 'online_safety': return 'bg-indigo-100 text-indigo-600';
+      default: return 'bg-slate-100 text-slate-600';
+    }
+  };
 
   const handlePinSubmit = (digit: string) => {
     if (pin.length < 4) {
@@ -277,15 +313,34 @@ export const Parents: React.FC<ParentsProps> = ({ onBack, currentSettings, onUpd
             </div>
         </div>
 
-        <h3 className="font-bold text-slate-800 mt-6 px-1">نصائح هامة</h3>
-        {PARENT_TIPS.map((tip, idx) => (
-          <div key={idx} className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex gap-4 items-start">
-            <div className="bg-red-50 text-red-500 text-2xl w-12 h-12 flex items-center justify-center rounded-xl flex-shrink-0">
-              {tip.icon}
+        <h3 className="font-bold text-slate-800 mt-6 px-1">نصائح وإرشادات</h3>
+        
+        {loadingTips && <p className="text-sm text-slate-400 p-4">جاري تحميل النصائح...</p>}
+        
+        {!loadingTips && tips.length === 0 && (
+          <div className="bg-white p-6 rounded-2xl border border-dashed border-slate-200 text-center">
+             <p className="text-sm text-slate-500">لا توجد نصائح مضافة حالياً.</p>
+          </div>
+        )}
+
+        {tips.map((tip) => (
+          <div key={tip.id} className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex gap-4 items-start">
+            <div className={`p-3 rounded-xl flex-shrink-0 ${getTipColor(tip.category)}`}>
+              {getTipIcon(tip.category)}
             </div>
             <div>
               <h3 className="font-bold text-slate-800 mb-1">{tip.title}</h3>
               <p className="text-sm text-slate-500 leading-relaxed">{tip.content}</p>
+              {(tip.contentPreparation || tip.execution) && (
+                <div className="mt-2 pt-2 border-t border-slate-50 flex gap-4">
+                  {tip.contentPreparation && (
+                    <span className="text-[10px] text-slate-400">إعداد: {tip.contentPreparation}</span>
+                  )}
+                  {tip.execution && (
+                    <span className="text-[10px] text-slate-400">تنفيذ: {tip.execution}</span>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         ))}

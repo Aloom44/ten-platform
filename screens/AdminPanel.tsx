@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { api } from '../services/api';
 
-type ContentType = 'story' | 'video' | 'game' | 'podcast';
+type ContentType = 'story' | 'video' | 'game' | 'podcast' | 'parent_tip';
 
 const emptyValues = {
   title: '',
@@ -14,11 +14,13 @@ const emptyValues = {
   description: '',
   video_url: '',
   duration: '180',
-  category: 'توعية',
+  category: 'awareness',
   game_type: 'educational',
   game_url: '',
   audio_url: '',
   host: '',
+  content_preparation: '',
+  execution: '',
 };
 
 export const AdminPanel: React.FC = () => {
@@ -41,6 +43,8 @@ export const AdminPanel: React.FC = () => {
         return 'رفع لعبة جديدة';
       case 'podcast':
         return 'رفع بودكاست جديد';
+      case 'parent_tip':
+        return 'إضافة نصيحة لأولياء الأمور';
       default:
         return 'رفع محتوى';
     }
@@ -125,6 +129,19 @@ export const AdminPanel: React.FC = () => {
           age_group: values.age_group,
           category: values.category,
           host: values.host,
+          content_preparation: values.content_preparation,
+          execution: values.execution,
+          is_active: true,
+        });
+      }
+
+      if (contentType === 'parent_tip') {
+        await api.createParentTip({
+          title: values.title,
+          content: values.content,
+          category: values.category,
+          content_preparation: values.content_preparation,
+          execution: values.execution,
           is_active: true,
         });
       }
@@ -141,6 +158,8 @@ export const AdminPanel: React.FC = () => {
         audio_url: '',
         author: '',
         host: '',
+        content_preparation: '',
+        execution: '',
       }));
     } catch (err: any) {
       const details = err?.message ? ` (${err.message})` : '';
@@ -201,18 +220,29 @@ export const AdminPanel: React.FC = () => {
             <button onClick={() => setContentType('video')} className={`rounded-xl px-3 py-2 text-sm font-bold ${contentType === 'video' ? 'bg-sky-600 text-white' : 'bg-white border border-slate-200 text-slate-700'}`}>فيديو</button>
             <button onClick={() => setContentType('game')} className={`rounded-xl px-3 py-2 text-sm font-bold ${contentType === 'game' ? 'bg-sky-600 text-white' : 'bg-white border border-slate-200 text-slate-700'}`}>لعبة</button>
             <button onClick={() => setContentType('podcast')} className={`rounded-xl px-3 py-2 text-sm font-bold ${contentType === 'podcast' ? 'bg-sky-600 text-white' : 'bg-white border border-slate-200 text-slate-700'}`}>بودكاست</button>
+            <button onClick={() => setContentType('parent_tip')} className={`rounded-xl px-3 py-2 text-sm font-bold ${contentType === 'parent_tip' ? 'bg-sky-600 text-white' : 'bg-white border border-slate-200 text-slate-700'}`}>نصائح الأهل</button>
           </div>
 
           <form onSubmit={onSubmitContent} className="space-y-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
             <h3 className="text-lg font-black text-slate-800">{title}</h3>
 
-            <input
-              value={values.title}
-              onChange={(e) => updateValue('title', e.target.value)}
-              placeholder="العنوان"
-              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
               required
             />
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <input
+                value={values.content_preparation}
+                onChange={(e) => updateValue('content_preparation', e.target.value)}
+                placeholder="إعداد المحتوى (أسماء الطلاب)"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
+              />
+              <input
+                value={values.execution}
+                onChange={(e) => updateValue('execution', e.target.value)}
+                placeholder="تنفيذ (أسماء الطلاب)"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
+              />
+            </div>
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               <input
@@ -249,7 +279,20 @@ export const AdminPanel: React.FC = () => {
                 </select>
               )}
 
-              {(contentType === 'video' || contentType === 'podcast') && (
+              {contentType === 'video' && (
+                <select
+                  value={values.category}
+                  onChange={(e) => updateValue('category', e.target.value)}
+                  className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
+                  required
+                >
+                  <option value="awareness">فيديوهات توعوية</option>
+                  <option value="activities">أنشطة وتحديات</option>
+                  <option value="quick_info">معلومات سريعة</option>
+                </select>
+              )}
+
+              {contentType === 'podcast' && (
                 <input
                   value={values.category}
                   onChange={(e) => updateValue('category', e.target.value)}
@@ -257,6 +300,20 @@ export const AdminPanel: React.FC = () => {
                   className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
                   required
                 />
+              )}
+
+              {contentType === 'parent_tip' && (
+                <select
+                  value={values.category}
+                  onChange={(e) => updateValue('category', e.target.value)}
+                  className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
+                  required
+                >
+                  <option value="protection">حماية الأطفال من المحتوى غير المناسب</option>
+                  <option value="screen_time">تنظيم وقت الشاشة</option>
+                  <option value="digital_edu">التربية الرقمية</option>
+                  <option value="online_safety">الأمان على الإنترنت</option>
+                </select>
               )}
             </div>
 
@@ -273,7 +330,7 @@ export const AdminPanel: React.FC = () => {
                 <textarea
                   value={values.content}
                   onChange={(e) => updateValue('content', e.target.value)}
-                  placeholder="محتوى القصة"
+                  placeholder="المحتوى"
                   rows={6}
                   className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
                   required
@@ -305,7 +362,7 @@ export const AdminPanel: React.FC = () => {
                 placeholder="الوصف"
                 rows={5}
                 className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
-                required
+                required={contentType !== 'parent_tip'}
               />
             )}
 
