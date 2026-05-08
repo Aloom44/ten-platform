@@ -104,18 +104,27 @@ export const Videos: React.FC = () => {
 
             {/* Video Info */}
             <div className="p-6">
-              <h3 className="text-lg font-black text-slate-800 mb-3 group-hover:text-sky-600 transition-colors line-clamp-2 leading-tight">
+              <h3 className="text-lg font-black text-slate-800 mb-2 group-hover:text-sky-600 transition-colors line-clamp-1 leading-tight">
                 {video.title}
               </h3>
-              <div className="flex items-center justify-between">
+              
+              <div className="flex flex-col gap-3">
                 {video.contentPreparation && (
-                  <div className="flex items-center gap-2 text-sky-600 bg-sky-50 px-3 py-1 rounded-lg">
-                    <User size={12} />
-                    <span className="text-[10px] font-black">إعداد: {video.contentPreparation}</span>
+                  <div className="flex items-center gap-2 text-slate-500">
+                    <div className="bg-slate-100 p-1.5 rounded-lg text-slate-400">
+                      <User size={12} />
+                    </div>
+                    <span className="text-[11px] font-bold">إعداد: {video.contentPreparation}</span>
                   </div>
                 )}
-                <div className="text-sky-500 group-hover:translate-x-[-4px] transition-transform">
-                  <Star size={16} fill="currentColor" />
+                
+                <div className="flex items-center justify-between mt-1">
+                  <div className="flex gap-1 text-sky-400">
+                    {[1, 2, 3, 4, 5].map(i => <Star key={i} size={10} fill={i <= 4 ? "currentColor" : "none"} />)}
+                  </div>
+                  <div className="text-sky-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-[-4px] transition-all">
+                    <ChevronLeft size={16} />
+                  </div>
                 </div>
               </div>
             </div>
