@@ -107,62 +107,73 @@ export const Stories: React.FC<StoriesProps> = ({ safeMode }) => {
                ></div>
             </div>
 
-            {/* Floating Controls Header */}
-            <div className="sticky top-1.5 z-50 flex justify-between items-center p-6 pointer-events-none">
-               <div className="pointer-events-auto flex gap-3">
+            {/* Floating Controls Header - Minimalist & Clear */}
+            <div className="absolute top-0 left-0 right-0 z-[70] flex justify-between items-start p-6 pointer-events-none">
+               <div className="pointer-events-auto">
                   <button 
                     onClick={() => setSelectedStory(null)}
-                    className="bg-white/90 hover:bg-white text-slate-800 p-3.5 rounded-[1.5rem] shadow-xl border border-slate-100/50 backdrop-blur-md transition-all active:scale-90"
+                    className="bg-black/20 hover:bg-black/40 text-white p-3 rounded-2xl backdrop-blur-md transition-all active:scale-90 border border-white/10"
                   >
-                    <X size={24} strokeWidth={3} />
+                    <X size={24} />
                   </button>
                </div>
                
-               <div className="pointer-events-auto flex items-center gap-2 bg-white/90 p-2 rounded-[1.5rem] shadow-xl border border-slate-100/50 backdrop-blur-md">
+               <div className="pointer-events-auto flex items-center gap-2 bg-white/90 p-1.5 rounded-[1.2rem] shadow-2xl border border-white backdrop-blur-xl">
                   <button 
                     onClick={() => setFontSize(prev => Math.max(16, prev - 2))}
-                    className="p-2 text-slate-500 hover:text-sky-600 transition-colors"
+                    className="p-2 text-slate-400 hover:text-sky-600 transition-colors"
                   >
-                    <Minus size={20} />
+                    <Minus size={18} />
                   </button>
-                  <div className="w-10 text-center font-black text-slate-700 text-sm flex items-center justify-center gap-1">
-                    <Type size={14} /> {fontSize}
+                  <div className="px-2 text-center font-black text-slate-700 text-xs flex items-center gap-1 border-x border-slate-100">
+                    <Type size={14} className="text-sky-500" /> {fontSize}
                   </div>
                   <button 
                     onClick={() => setFontSize(prev => Math.min(32, prev + 2))}
-                    className="p-2 text-slate-500 hover:text-sky-600 transition-colors"
+                    className="p-2 text-slate-400 hover:text-sky-600 transition-colors"
                   >
-                    <Plus size={20} />
+                    <Plus size={18} />
                   </button>
                </div>
             </div>
 
-            {/* Premium Hero Section - Optimized Clarity */}
-            <div className="relative w-full h-[55vh] sm:h-[600px] -mt-24 overflow-hidden shadow-2xl">
+            {/* Immersive Hero Section - Netflix/Story App Style */}
+            <div className="relative w-full h-[65vh] sm:h-[750px] overflow-hidden bg-slate-900">
+               {/* 1. Blurred Background for Depth */}
                <img 
                 src={selectedStory.image} 
-                alt={selectedStory.title} 
-                className="w-full h-full object-cover animate-image-zoom" 
+                className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110"
+                aria-hidden="true"
                />
                
-               {/* Soft, Professional Gradient - Reduced Darkness */}
-               <div className="absolute inset-0 bg-gradient-to-t from-[#FDFCF8] via-transparent to-black/5"></div>
-               <div className="absolute inset-0 bg-sky-900/5 mix-blend-overlay"></div>
+               {/* 2. Focused Main Image - Preserving Aspect Ratio */}
+               <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-0">
+                  <img 
+                    src={selectedStory.image} 
+                    alt={selectedStory.title} 
+                    className="w-full h-full sm:w-auto sm:max-w-none sm:h-full object-contain sm:object-cover animate-image-zoom shadow-2xl" 
+                  />
+               </div>
+               
+               {/* 3. Professional Gradient Overlays */}
+               <div className="absolute inset-0 bg-gradient-to-t from-[#FDFCF8] via-[#FDFCF8]/10 to-transparent"></div>
+               <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-transparent"></div>
 
-               {/* Hero Content - Moved for better visibility */}
-               <div className="absolute bottom-0 left-0 right-0 p-8 sm:p-20 text-right">
-                  <div className="flex flex-wrap items-center justify-end gap-3 mb-6 animate-in slide-in-from-right duration-700">
-                    <span className="bg-sky-500 text-white px-5 py-2.5 rounded-[1.2rem] text-xs font-black shadow-lg shadow-sky-500/30 flex items-center gap-2">
-                      <BookOpen size={16} /> قصة ذكية
+               {/* Hero Content - Integrated with the Visuals */}
+               <div className="absolute bottom-0 left-0 right-0 p-8 sm:p-24 text-right">
+                  <div className="flex flex-wrap items-center justify-end gap-3 mb-6">
+                    <span className="bg-sky-500 text-white px-5 py-2.5 rounded-[1.2rem] text-[10px] font-black shadow-xl shadow-sky-500/20 flex items-center gap-2 uppercase tracking-tighter">
+                      <Star size={14} fill="currentColor" /> قصة مميزة
                     </span>
-                    <span className="bg-white/20 text-white px-5 py-2.5 rounded-[1.2rem] text-xs font-black backdrop-blur-md border border-white/30 flex items-center gap-2">
-                      <Clock size={16} /> 5 دقائق ممتعة
+                    <span className="bg-white/90 text-slate-800 px-5 py-2.5 rounded-[1.2rem] text-[10px] font-black shadow-xl flex items-center gap-2">
+                      <Clock size={14} className="text-emerald-500" /> {selectedStory.isGenerated ? 'استماع ذكي' : 'قراءة ممتعة'}
                     </span>
                   </div>
                   
-                  <h1 className="text-4xl sm:text-7xl font-black text-white leading-[1.1] mb-6 drop-shadow-2xl animate-in slide-in-from-bottom duration-1000">
+                  <h1 className="text-4xl sm:text-8xl font-black text-slate-900 leading-[1] mb-2 drop-shadow-sm tracking-tight">
                     {selectedStory.title}
                   </h1>
+                  <div className="w-24 h-2 bg-gradient-to-l from-sky-400 to-emerald-400 rounded-full mr-1 mt-6"></div>
                </div>
             </div>
 
