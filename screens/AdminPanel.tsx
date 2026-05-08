@@ -114,6 +114,8 @@ export const AdminPanel: React.FC = () => {
           age_group: values.age_group,
           category: values.category,
           thumbnail_url: values.thumbnail_url,
+          content_preparation: values.content_preparation,
+          execution: values.execution,
           is_active: true,
         });
       }
