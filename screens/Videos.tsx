@@ -55,7 +55,7 @@ export const Videos: React.FC = () => {
       {/* Dynamic Header Section */}
       <div className="mb-10 text-right">
         <h2 className="text-3xl font-black text-slate-800 mb-2 flex items-center justify-end gap-3">
-          <Sparkles className="text-sky-500" /> الفيديوهات المميزة
+          <Sparkles className="text-sky-500" /> فيديوهات ألوان
         </h2>
         <p className="text-slate-500 font-bold">شاهد وتعلم مهارات جديدة في العالم الرقمي!</p>
       </div>
@@ -108,13 +108,11 @@ export const Videos: React.FC = () => {
                 {video.title}
               </h3>
               <div className="flex items-center justify-between">
-                {video.contentPreparation ? (
-                  <div className="flex items-center gap-2 text-slate-400">
-                    <User size={14} />
-                    <span className="text-[10px] font-bold">إعداد: {video.contentPreparation}</span>
+                {video.contentPreparation && (
+                  <div className="flex items-center gap-2 text-sky-600 bg-sky-50 px-3 py-1 rounded-lg">
+                    <User size={12} />
+                    <span className="text-[10px] font-black">إعداد: {video.contentPreparation}</span>
                   </div>
-                ) : (
-                  <div className="w-px h-1"></div>
                 )}
                 <div className="text-sky-500 group-hover:translate-x-[-4px] transition-transform">
                   <Star size={16} fill="currentColor" />

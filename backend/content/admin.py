@@ -40,7 +40,7 @@ class VideoAdmin(admin.ModelAdmin):
     search_fields = ['title', 'description']
     readonly_fields = ['views', 'likes', 'created_at', 'updated_at']
     fieldsets = (
-        (None, {'fields': ('title', 'description', 'category', 'thumbnail', 'video_url', 'duration')}),
+        (None, {'fields': ('title', 'description', 'category', 'thumbnail', 'thumbnail_url', 'video_url', 'duration')}),
         ('التفاصيل', {'fields': ('age_group', 'is_active')}),
         ('فريق العمل', {'fields': ('content_preparation', 'execution')}),
         ('الإحصائيات', {'fields': ('views', 'likes', 'created_at', 'updated_at')}),

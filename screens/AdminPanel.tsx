@@ -13,6 +13,7 @@ const emptyValues = {
   author: '',
   description: '',
   video_url: '',
+  thumbnail_url: '',
   duration: '180',
   category: 'awareness',
   game_type: 'educational',
@@ -300,6 +301,15 @@ export const AdminPanel: React.FC = () => {
                   <option value="multiplayer">متعدد</option>
                   <option value="quiz">اختبار</option>
                 </select>
+              )}
+
+              {contentType === 'video' && (
+                <input
+                  value={values.thumbnail_url}
+                  onChange={(e) => updateValue('thumbnail_url', e.target.value)}
+                  placeholder="رابط الصورة المصغرة (اختياري)"
+                  className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
+                />
               )}
 
               {contentType === 'video' && (

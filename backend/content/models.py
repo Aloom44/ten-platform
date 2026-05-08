@@ -101,6 +101,7 @@ class Video(models.Model):
     title = models.CharField(max_length=200, verbose_name="العنوان")
     description = models.TextField(verbose_name="الوصف")
     thumbnail = models.ImageField(upload_to='videos/thumbnails/', blank=True, null=True, verbose_name="الصورة المصغرة")
+    thumbnail_url = models.URLField(blank=True, verbose_name="رابط الصورة المصغرة (اختياري)")
     video_url = models.URLField(verbose_name="رابط الفيديو")
     duration = models.IntegerField(default=0, verbose_name="المدة (ثواني)")
     age_group = models.CharField(max_length=20, verbose_name="الفئة العمرية")

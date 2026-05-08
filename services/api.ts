@@ -95,7 +95,8 @@ const mapVideo = (item: any, idx: number): Video => ({
   id: String(item.id),
   title: item.title || 'فيديو',
   duration: toDurationString(item.duration),
-  thumbnail: resolveMediaUrl(item.thumbnail, `https://picsum.photos/400/250?random=${200 + idx}`),
+  thumbnail: item.thumbnail_url || resolveMediaUrl(item.thumbnail, `https://picsum.photos/400/250?random=${200 + idx}`),
+  thumbnailUrl: item.thumbnail_url,
   videoUrl: item.video_url,
   description: item.description,
   category: item.category,
@@ -328,6 +329,7 @@ export const api = {
     title: string;
     description: string;
     video_url: string;
+    thumbnail_url?: string;
     duration: number;
     age_group: string;
     category: string;
