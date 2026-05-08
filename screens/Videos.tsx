@@ -55,7 +55,7 @@ export const Videos: React.FC = () => {
       {/* Dynamic Header Section */}
       <div className="mb-10 text-right">
         <h2 className="text-3xl font-black text-slate-800 mb-2 flex items-center justify-end gap-3">
-          <Sparkles className="text-sky-500" /> فيديوهات ألوان
+          <Sparkles className="text-sky-500" /> الفيديوهات
         </h2>
         <p className="text-slate-500 font-bold">شاهد وتعلم مهارات جديدة في العالم الرقمي!</p>
       </div>

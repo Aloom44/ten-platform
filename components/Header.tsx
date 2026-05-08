@@ -13,7 +13,7 @@ export const Header: React.FC<HeaderProps> = ({ currentTab, onOpenParents }) => 
     switch (currentTab) {
       case Tab.HOME: return 'TEN';
       case Tab.STORIES: return 'مكتبة القصص';
-      case Tab.VIDEOS: return 'فيديوهات مرحة';
+      case Tab.VIDEOS: return 'الفيديوهات';
       case Tab.ARTICLES: return 'مكتبة المقالات';
       case Tab.ADMIN: return 'لوحة الإدارة';
       case Tab.PROFILE: return 'البطل الصغير';

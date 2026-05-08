@@ -169,7 +169,7 @@ export const PARENT_TIPS = [
 export const NAV_ITEMS = [
   { id: 'home', label: 'الرئيسية', icon: Home },
   { id: 'stories', label: 'قصص', icon: BookOpen },
-  { id: 'videos', label: 'فيديو', icon: VideoIcon },
+  { id: 'videos', label: 'الفيديوهات', icon: VideoIcon },
   { id: 'infographics', label: 'إنفوجرافيك', icon: BarChart3 },
   { id: 'articles', label: 'مقالات', icon: Newspaper },
   { id: 'admin', label: 'إدارة', icon: ShieldAlert },
