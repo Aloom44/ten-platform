@@ -226,6 +226,11 @@ export const AdminPanel: React.FC = () => {
           <form onSubmit={onSubmitContent} className="space-y-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
             <h3 className="text-lg font-black text-slate-800">{title}</h3>
 
+            <input
+              value={values.title}
+              onChange={(e) => updateValue('title', e.target.value)}
+              placeholder="العنوان"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-sky-400"
               required
             />
 
