@@ -84,6 +84,7 @@ const mapStory = (item: any, idx: number): Story => ({
   color: STORY_COLORS[idx % STORY_COLORS.length],
   content: item.content,
   summary: item.summary,
+  author: item.author,
   contentPreparation: item.content_preparation,
   execution: item.execution,
 });

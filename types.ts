@@ -8,6 +8,7 @@ export interface Story {
   color: string;
   content?: string;
   summary?: string;
+  author?: string;
   contentPreparation?: string;
   execution?: string;
   isGenerated?: boolean;

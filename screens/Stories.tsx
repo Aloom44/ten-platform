@@ -148,7 +148,7 @@ export const Stories: React.FC<StoriesProps> = ({ safeMode }) => {
                   <div className="bg-slate-50 rounded-[2rem] p-8 sm:p-10 border border-slate-100">
                     <h4 className="text-sm font-black text-slate-400 mb-8 flex items-center gap-2 uppercase tracking-widest">
                       <User size={16} className="text-sky-400" />
-                      فريق العمل المبدع
+                      {selectedStory.author ? `بواسطة: ${selectedStory.author}` : 'فريق العمل المبدع'}
                     </h4>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
