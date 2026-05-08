@@ -142,7 +142,10 @@ export const Home: React.FC<HomeProps> = ({ onChangeTab }) => {
                     </div>
                   </div>
                 </div>
-                <h4 className="text-sm font-bold text-slate-700 mt-2 px-1">{video.title}</h4>
+                <h4 className="text-sm font-bold text-slate-700 mt-2 px-1 line-clamp-1">{video.title}</h4>
+                {video.contentPreparation && (
+                  <p className="text-[10px] text-slate-400 px-1 mt-1 font-bold italic">إعداد: {video.contentPreparation}</p>
+                )}
              </div>
            ))}
         </div>
