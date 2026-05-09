@@ -64,7 +64,10 @@ export const Home: React.FC<HomeProps> = ({ onChangeTab }) => {
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
-   return (
+    visible: { y: 0, opacity: 1 }
+  };
+
+  return (
     <div className="space-y-10 pb-32 pt-2">
       {/* --- HERO SECTION (Simplified & Editorial) --- */}
       <motion.div 
