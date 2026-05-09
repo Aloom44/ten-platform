@@ -31,27 +31,31 @@ export const MOCK_STORIES: Story[] = [
 export const MOCK_VIDEOS: Video[] = [
   {
     id: '1',
-    title: 'كيف أحمي نفسي؟',
+    title: 'الأمان الإلكتروني للأطفال',
     duration: '03:00',
-    thumbnail: 'https://picsum.photos/400/250?random=104'
+    thumbnail: 'https://picsum.photos/400/250?random=104',
+    contentPreparation: 'أسامة علي الزنون'
   },
   {
     id: '2',
-    title: 'عالم بلا شاشات',
+    title: 'مخاطر استخدام الهاتف',
     duration: '04:30',
-    thumbnail: 'https://picsum.photos/400/250?random=105'
+    thumbnail: 'https://picsum.photos/400/250?random=105',
+    contentPreparation: 'أسامة علي الزنون'
   },
   {
     id: '3',
     title: 'لا تضغط على الرابط!',
     duration: '02:15',
-    thumbnail: 'https://picsum.photos/400/250?random=106'
+    thumbnail: 'https://picsum.photos/400/250?random=106',
+    contentPreparation: 'أسامة علي الزنون'
   },
   {
     id: '4',
     title: 'وقت العائلة',
     duration: '05:00',
-    thumbnail: 'https://picsum.photos/400/250?random=107'
+    thumbnail: 'https://picsum.photos/400/250?random=107',
+    contentPreparation: 'أسامة علي الزنون'
   }
 ];
 
