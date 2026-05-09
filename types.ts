@@ -103,7 +103,23 @@ export enum Tab {
   ARTICLES = 'articles',
   ADMIN = 'admin',
   PARENTS = 'parents',
-  INFOGRAPHICS = 'infographics'
+  INFOGRAPHICS = 'infographics',
+  GAMES = 'games'
+}
+
+export interface Game {
+  id: string;
+  title: string;
+  description: string;
+  short_description?: string;
+  game_url: string;
+  thumbnail?: string;
+  thumbnail_url?: string;
+  creators?: string;
+  age_group: string;
+  game_type: 'educational' | 'intelligence' | 'digital_safety' | 'focus' | 'purposeful_fun';
+  contentPreparation?: string;
+  execution?: string;
 }
 
 // Multiplayer Specific Types

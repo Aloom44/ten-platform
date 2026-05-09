@@ -9,6 +9,7 @@ import { Games } from './screens/Games';
 import { Parents } from './screens/Parents';
 import { AdminPanel } from './screens/AdminPanel';
 import { Infographics } from './screens/Infographics';
+import { Games } from './screens/Games';
 import { Tab, AppSettings } from './types';
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
       case Tab.ARTICLES: return <Articles />;
       case Tab.ADMIN: return <AdminPanel />;
       case Tab.INFOGRAPHICS: return <Infographics />;
+      case Tab.GAMES: return <Games />;
       case Tab.PARENTS: return (
         <Parents 
           onBack={() => setCurrentTab(Tab.HOME)} 

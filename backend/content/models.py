@@ -57,23 +57,26 @@ class Story(models.Model):
 class Game(models.Model):
     """الألعاب"""
     GAME_TYPE_CHOICES = [
-        ('puzzle', 'ألغاز'),
-        ('memory', 'ذاكرة'),
-        ('educational', 'تعليمية'),
-        ('multiplayer', 'متعددة اللاعبين'),
-        ('quiz', 'اختبار'),
+        ('educational', 'ألعاب تعليمية'),
+        ('intelligence', 'ألعاب ذكاء'),
+        ('digital_safety', 'ألعاب أمان رقمي'),
+        ('focus', 'ألعاب تركيز'),
+        ('purposeful_fun', 'ألعاب ترفيهية هادفة'),
     ]
     
     title = models.CharField(max_length=200, verbose_name="العنوان")
     description = models.TextField(verbose_name="الوصف")
+    short_description = models.CharField(max_length=500, blank=True, verbose_name="وصف قصير")
     game_type = models.CharField(max_length=20, choices=GAME_TYPE_CHOICES, verbose_name="نوع اللعبة")
     thumbnail = models.ImageField(upload_to='games/', blank=True, null=True, verbose_name="الصورة المصغرة")
+    thumbnail_url = models.URLField(blank=True, verbose_name="رابط الصورة المصغرة الخارجية")
     age_group = models.CharField(max_length=20, verbose_name="الفئة العمرية")
     difficulty = models.CharField(max_length=10, choices=Story.DIFFICULTY_CHOICES, default='easy', verbose_name="المستوى")
     game_url = models.URLField(blank=True, verbose_name="رابط اللعبة")
     game_data = models.JSONField(blank=True, null=True, verbose_name="بيانات اللعبة")
     plays_count = models.IntegerField(default=0, verbose_name="عدد مرات اللعب")
     rating = models.DecimalField(max_digits=3, decimal_places=2, default=0, verbose_name="التقييم")
+    creators = models.CharField(max_length=255, blank=True, verbose_name="منفذو اللعبة / الإعداد")
     content_preparation = models.CharField(max_length=200, blank=True, verbose_name="إعداد المحتوى")
     execution = models.CharField(max_length=200, blank=True, verbose_name="تنفيذ")
     is_active = models.BooleanField(default=True, verbose_name="نشط")

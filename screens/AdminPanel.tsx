@@ -3,7 +3,7 @@ import { api } from '../services/api';
 import { Play, Image as ImageIcon, Plus, Trash2, LogOut, Layout, BookOpen, Video as VideoIcon, FileText, Lightbulb, BarChart3, User, CheckCircle2, AlertCircle } from 'lucide-react';
 import { INFOGRAPHIC_CATEGORIES, PARENT_TIP_CATEGORIES } from '../constants';
 
-type ContentType = 'story' | 'video' | 'article' | 'parent_tip' | 'infographic';
+type ContentType = 'story' | 'video' | 'article' | 'parent_tip' | 'infographic' | 'game';
 
 const emptyValues = {
   title: '',
@@ -16,8 +16,10 @@ const emptyValues = {
   description: '',
   video_url: '',
   thumbnail_url: '',
+  game_url: '',
+  creators: '',
   duration: '180',
-  category: 'awareness',
+  category: 'educational',
   content_preparation: '',
   execution: '',
   goal: '',
@@ -25,6 +27,7 @@ const emptyValues = {
   cover_image_url: '',
   author_name: '',
   image_url: '',
+  short_description: '',
   content_blocks: [] as any[],
 };
 
@@ -43,6 +46,7 @@ export const AdminPanel: React.FC = () => {
       case 'story': return 'رفع قصة جديدة';
       case 'video': return 'رفع فيديو جديد';
       case 'article': return 'رفع مقال جديد';
+      case 'game': return 'إضافة لعبة تعليمية جديدة';
       case 'parent_tip': return 'إضافة نصيحة لأولياء الأمور';
       case 'infographic': return 'إضافة إنفوجرافيك جديد';
       default: return 'رفع محتوى';
@@ -157,6 +161,20 @@ export const AdminPanel: React.FC = () => {
         });
       }
 
+      if (contentType === 'game') {
+        await api.createGame({
+          title: values.title,
+          description: values.description,
+          short_description: values.short_description,
+          game_type: values.category,
+          game_url: values.game_url,
+          thumbnail_url: values.thumbnail_url,
+          creators: values.creators,
+          age_group: values.age_group,
+          is_active: true,
+        });
+      }
+
       setMessage('تم رفع المحتوى بنجاح!');
       setValues(emptyValues);
     } catch (err: any) {
@@ -173,6 +191,7 @@ export const AdminPanel: React.FC = () => {
     { id: 'story', label: 'قصة', icon: BookOpen, color: 'bg-green-100 text-green-700' },
     { id: 'video', label: 'فيديو', icon: VideoIcon, color: 'bg-blue-100 text-blue-700' },
     { id: 'article', label: 'مقال', icon: FileText, color: 'bg-purple-100 text-purple-700' },
+    { id: 'game', label: 'لعبة', icon: Gamepad2, color: 'bg-indigo-100 text-indigo-700' },
     { id: 'parent_tip', label: 'نصائح الأهل', icon: Lightbulb, color: 'bg-amber-100 text-amber-700' },
     { id: 'infographic', label: 'إنفوجرافيك', icon: BarChart3, color: 'bg-indigo-100 text-indigo-700' },
   ];
@@ -333,6 +352,19 @@ export const AdminPanel: React.FC = () => {
                         <option value="health">صحة رقمية</option>
                         <option value="safety">أمان رقمي</option>
                       </select>
+                    ) : contentType === 'game' ? (
+                      <select
+                        value={values.category}
+                        onChange={(e) => updateValue('category', e.target.value)}
+                        className="w-full rounded-2xl border-2 border-slate-50 bg-slate-50 px-6 py-4 text-sm font-bold outline-none focus:border-sky-400 focus:bg-white transition-all"
+                        required
+                      >
+                        <option value="educational">ألعاب تعليمية</option>
+                        <option value="intelligence">ألعاب ذكاء</option>
+                        <option value="digital_safety">ألعاب أمان رقمي</option>
+                        <option value="focus">ألعاب تركيز</option>
+                        <option value="purposeful_fun">ألعاب ترفيهية هادفة</option>
+                      </select>
                     ) : (
                       <input 
                         value={values.category} 
@@ -463,14 +495,16 @@ export const AdminPanel: React.FC = () => {
                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-start">
                       <div className="space-y-6">
                         {/* Dynamic Media Input */}
-                        {(contentType === 'video') && (
+                        {(contentType === 'video' || contentType === 'game') && (
                           <div>
-                            <label className="block text-xs font-black text-slate-400 mb-2 mr-2 uppercase tracking-widest">رابط الفيديو</label>
+                            <label className="block text-xs font-black text-slate-400 mb-2 mr-2 uppercase tracking-widest">
+                               {contentType === 'video' ? 'رابط الفيديو' : 'رابط اللعبة'}
+                            </label>
                             <div className="relative">
                               <Play size={18} className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400" />
                               <input
-                                value={values.video_url}
-                                onChange={(e) => updateValue('video_url', e.target.value)}
+                                value={contentType === 'video' ? values.video_url : values.game_url}
+                                onChange={(e) => updateValue(contentType === 'video' ? 'video_url' : 'game_url', e.target.value)}
                                 placeholder="https://..."
                                 className="w-full rounded-2xl border-2 border-slate-50 bg-slate-50 pr-12 pl-6 py-4 text-sm font-bold outline-none focus:border-sky-400 focus:bg-white transition-all"
                                 required
@@ -545,10 +579,12 @@ export const AdminPanel: React.FC = () => {
                 {/* Footer Section: Metadata */}
                 <div className="pt-8 border-t border-slate-50 grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-black text-slate-400 mb-2 mr-2 uppercase tracking-widest">إعداد المحتوى</label>
+                    <label className="block text-xs font-black text-slate-400 mb-2 mr-2 uppercase tracking-widest">
+                       {contentType === 'game' ? 'منفذو اللعبة / الإعداد' : 'إعداد المحتوى'}
+                    </label>
                     <input
-                      value={values.content_preparation}
-                      onChange={(e) => updateValue('content_preparation', e.target.value)}
+                      value={contentType === 'game' ? values.creators : values.content_preparation}
+                      onChange={(e) => updateValue(contentType === 'game' ? 'creators' : 'content_preparation', e.target.value)}
                       placeholder="أسماء الطلاب أو الفريق"
                       className="w-full rounded-2xl border-2 border-slate-50 bg-slate-50 px-6 py-4 text-sm font-bold outline-none focus:border-sky-400 focus:bg-white transition-all"
                     />

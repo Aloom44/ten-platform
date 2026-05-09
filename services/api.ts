@@ -107,9 +107,14 @@ const mapVideo = (item: any, idx: number): Video => ({
 const mapGame = (item: any, idx: number): Game => ({
   id: String(item.id),
   title: item.title || 'لعبة',
-  type: gameTypeLabel(item.game_type),
-  icon: GAME_TYPE_ICONS[item.game_type] || '🎮',
-  color: GAME_COLORS[idx % GAME_COLORS.length],
+  description: item.description || '',
+  short_description: item.short_description || '',
+  game_url: item.game_url || '',
+  thumbnail: resolveMediaUrl(item.thumbnail_url || item.thumbnail, `https://picsum.photos/400/300?random=${400 + idx}`),
+  thumbnail_url: item.thumbnail_url,
+  creators: item.creators || item.execution || '',
+  age_group: item.age_group || '6-12',
+  game_type: item.game_type || 'educational',
   contentPreparation: item.content_preparation,
   execution: item.execution,
 });
@@ -256,7 +261,7 @@ export const api = {
       return toArray<any>(data).map(mapGame);
     }
     await new Promise((r) => setTimeout(r, 300));
-    return MOCK_GAMES;
+    return MOCK_GAMES.map(mapGame);
   },
 
   getCaricatures: async (): Promise<Caricature[]> => {
@@ -356,12 +361,12 @@ export const api = {
   createGame: async (payload: {
     title: string;
     description: string;
-    game_type: 'puzzle' | 'memory' | 'educational' | 'multiplayer' | 'quiz';
+    short_description?: string;
+    game_type: string;
+    game_url: string;
+    thumbnail_url?: string;
+    creators?: string;
     age_group: string;
-    difficulty: 'easy' | 'medium' | 'hard';
-    game_url?: string;
-    content_preparation?: string;
-    execution?: string;
     is_active?: boolean;
   }): Promise<any> => {
     return fetchJson('/content/games/', {

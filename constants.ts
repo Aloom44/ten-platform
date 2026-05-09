@@ -1,6 +1,6 @@
 
 import { Story, Video, Game, UserProfile, Caricature, TriviaQuestion } from './types';
-import { BookOpen, Video as VideoIcon, Newspaper, User, Home, ShieldAlert, BarChart3 } from 'lucide-react';
+import { BookOpen, Video as VideoIcon, Newspaper, User, Home, ShieldAlert, BarChart3, Gamepad2 } from 'lucide-react';
 
 export const APP_NAME = "عالم ألوان";
 
@@ -59,34 +59,28 @@ export const MOCK_VIDEOS: Video[] = [
   }
 ];
 
-export const MOCK_GAMES: Game[] = [
+export const MOCK_GAMES: any[] = [
   {
     id: '1',
-    title: 'فرز المحتوى',
-    type: 'أمان',
-    icon: '🛡️',
-    color: 'bg-blue-100 border-blue-300'
+    title: 'فرز المحتوى الآمن',
+    description: 'تعلم كيف تميز بين المحتوى المفيد والمحتوى الضار في عالم الإنترنت.',
+    short_description: 'لعبة لفرز المحتوى الإلكتروني',
+    game_url: 'https://wordwall.net/embed/resource/12345',
+    thumbnail: 'https://picsum.photos/400/300?random=401',
+    creators: 'أسامة علي الزنون',
+    age_group: '8-12',
+    game_type: 'digital_safety'
   },
   {
     id: '2',
-    title: 'مراقبة الوقت',
-    type: 'تحدي',
-    icon: '⏳',
-    color: 'bg-orange-100 border-orange-300'
-  },
-  {
-    id: '3',
-    title: 'حقيقة أم خيال',
-    type: 'ذكاء',
-    icon: '🤔',
-    color: 'bg-purple-100 border-purple-300'
-  },
-  {
-    id: '4',
-    title: 'صديق أم غريب؟',
-    type: 'حماية',
-    icon: '👤',
-    color: 'bg-red-100 border-red-300'
+    title: 'متاهة الذكاء الرقمي',
+    description: 'ساعد البطل في الوصول إلى بر الأمان من خلال حل ألغاز التشفير والخصوصية.',
+    short_description: 'حل ألغاز الخصوصية والأمان',
+    game_url: 'https://wordwall.net/embed/resource/67890',
+    thumbnail: 'https://picsum.photos/400/300?random=402',
+    creators: 'أسامة علي الزنون',
+    age_group: '6-10',
+    game_type: 'intelligence'
   }
 ];
 
@@ -148,6 +142,7 @@ export const NAV_ITEMS = [
   { id: 'stories', label: 'قصص', icon: BookOpen },
   { id: 'videos', label: 'الفيديوهات', icon: VideoIcon },
   { id: 'infographics', label: 'إنفوجرافيك', icon: BarChart3 },
+  { id: 'games', label: 'الألعاب', icon: Gamepad2 },
   { id: 'articles', label: 'مقالات', icon: Newspaper },
   { id: 'admin', label: 'إدارة', icon: ShieldAlert },
 ];
