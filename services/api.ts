@@ -1,5 +1,5 @@
 
-import { Story, UserProfile, AppSettings, Video, Game, Podcast, Caricature, ParentTip, Infographic } from '../types';
+import { Story, UserProfile, AppSettings, Video, Game, Caricature, ParentTip, Infographic, Article } from '../types';
 import {
   MOCK_STORIES,
   MOCK_PROFILE,
@@ -129,31 +129,14 @@ const mapArticle = (item: any, idx: number): Article => ({
   execution: item.execution,
 });
 
-const mapPodcast = (item: any, idx: number): Podcast => ({
-  id: String(item.id),
-  title: item.title || 'بودكاست',
-  duration: toDurationString(item.duration),
-  host: item.host || 'ضيف البرنامج',
-  image: resolveMediaUrl(item.thumbnail, `https://picsum.photos/200/200?random=${300 + idx}`),
-  color: idx % 2 === 0 ? 'bg-emerald-100' : 'bg-orange-100',
-  contentPreparation: item.content_preparation,
-  execution: item.execution,
-});
-
-const mapCaricature = (item: any, idx: number): Caricature => ({
-  id: String(item.id),
-  title: item.title || 'كاريكاتير',
-  image: resolveMediaUrl(item.image, `https://picsum.photos/400/400?random=${400 + idx}`),
-  description: item.description || 'بدون وصف',
-  contentPreparation: item.content_preparation,
-  execution: item.execution,
-});
-
 const mapParentTip = (item: any): ParentTip => ({
   id: String(item.id),
   title: item.title,
+  summary: item.summary,
   content: item.content,
-  image: resolveMediaUrl(item.image),
+  authorName: item.author_name,
+  image: resolveMediaUrl(item.image_url || item.image),
+  coverImageUrl: item.cover_image_url,
   category: item.category,
   contentPreparation: item.content_preparation,
   execution: item.execution,
@@ -163,8 +146,11 @@ const mapParentTip = (item: any): ParentTip => ({
 const mapInfographic = (item: any, idx: number): Infographic => ({
   id: String(item.id),
   title: item.title || 'إنفوجرافيك',
+  authorName: item.author_name,
   description: item.description || '',
-  image: resolveMediaUrl(item.image, `https://picsum.photos/600/800?random=${500 + idx}`),
+  content: item.content,
+  image: resolveMediaUrl(item.image_url || item.image, `https://picsum.photos/600/800?random=${500 + idx}`),
+  imageUrl: item.image_url,
   category: item.category,
   age_group: item.age_group || '8-12',
   contentPreparation: item.content_preparation,
@@ -271,15 +257,6 @@ export const api = {
     }
     await new Promise((r) => setTimeout(r, 300));
     return MOCK_GAMES;
-  },
-
-  getPodcasts: async (): Promise<Podcast[]> => {
-    if (USE_REAL_API) {
-      const data = await fetchJson('/content/podcasts/');
-      return toArray<any>(data).map(mapPodcast);
-    }
-    await new Promise((r) => setTimeout(r, 300));
-    return MOCK_PODCASTS;
   },
 
   getCaricatures: async (): Promise<Caricature[]> => {
@@ -393,27 +370,12 @@ export const api = {
     });
   },
 
-  createPodcast: async (payload: {
-    title: string;
-    description: string;
-    audio_url: string;
-    duration: number;
-    age_group: string;
-    category: string;
-    host?: string;
-    content_preparation?: string;
-    execution?: string;
-    is_active?: boolean;
-  }): Promise<any> => {
-    return fetchJson('/content/podcasts/', {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    });
-  },
-
   createParentTip: async (payload: {
     title: string;
+    summary?: string;
     content: string;
+    author_name?: string;
+    cover_image_url?: string;
     category: string;
     content_preparation?: string;
     execution?: string;
@@ -427,7 +389,10 @@ export const api = {
 
   createInfographic: async (payload: {
     title: string;
+    author_name?: string;
     description: string;
+    content?: string;
+    image_url?: string;
     category: string;
     age_group: string;
     content_preparation?: string;

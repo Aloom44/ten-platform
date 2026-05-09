@@ -1,5 +1,5 @@
 
-import { Story, Video, Game, UserProfile, Podcast, Caricature, TriviaQuestion } from './types';
+import { Story, Video, Game, UserProfile, Caricature, TriviaQuestion } from './types';
 import { BookOpen, Video as VideoIcon, Newspaper, User, Home, ShieldAlert, BarChart3 } from 'lucide-react';
 
 export const APP_NAME = "عالم ألوان";
@@ -86,33 +86,6 @@ export const MOCK_GAMES: Game[] = [
   }
 ];
 
-export const MOCK_PODCASTS: Podcast[] = [
-  {
-    id: '1',
-    title: 'أصوات الطبيعة',
-    duration: '10:00',
-    host: 'العمة منى',
-    image: 'https://picsum.photos/200/200?random=201',
-    color: 'bg-emerald-100'
-  },
-  {
-    id: '2',
-    title: 'مغامرة بدون شاشة',
-    duration: '15:30',
-    host: 'العم حكيم',
-    image: 'https://picsum.photos/200/200?random=202',
-    color: 'bg-orange-100'
-  },
-  {
-    id: '3',
-    title: 'سر الصندوق',
-    duration: '08:45',
-    host: 'الراوي الصغير',
-    image: 'https://picsum.photos/200/200?random=203',
-    color: 'bg-purple-100'
-  }
-];
-
 export const MOCK_CARICATURES: Caricature[] = [
   {
     id: '1',
@@ -140,6 +113,24 @@ export const MOCK_CARICATURES: Caricature[] = [
   }
 ];
 
+export const INFOGRAPHIC_CATEGORIES = [
+  { id: 'online_safety', label: 'الأمان الإلكتروني', icon: '🛡️' },
+  { id: 'digital_health', label: 'الصحة الرقمية', icon: '🧘' },
+  { id: 'digital_awareness', label: 'التوعية الرقمية', icon: '💡' },
+  { id: 'cyberbullying', label: 'التنمر الإلكتروني', icon: '🚫' },
+  { id: 'privacy', label: 'الخصوصية', icon: '🔐' },
+  { id: 'safe_internet', label: 'الاستخدام الآمن للإنترنت', icon: '🌐' },
+];
+
+export const PARENT_TIP_CATEGORIES = [
+  { id: 'screen_time', label: 'تنظيم وقت الشاشة', icon: '⏰' },
+  { id: 'sleep', label: 'النوم والشاشات', icon: '🌙' },
+  { id: 'games', label: 'الألعاب الإلكترونية', icon: '🎮' },
+  { id: 'protection', label: 'حماية الأطفال', icon: '🛡️' },
+  { id: 'mental_health', label: 'الصحة النفسية', icon: '🧠' },
+  { id: 'family_comms', label: 'التواصل الأسري', icon: '👨‍👩‍👧‍👦' },
+];
+
 export const MOCK_PROFILE: UserProfile = {
   name: 'أحمد',
   level: 3,
@@ -147,24 +138,6 @@ export const MOCK_PROFILE: UserProfile = {
   progress: 60,
   avatar: 'https://picsum.photos/200/200?random=8'
 };
-
-export const PARENT_TIPS = [
-  {
-    title: 'خطر المحتوى الضار',
-    content: 'الإنترنت مليء بمحتوى غير مناسب. استخدام فلاتر الحماية ضروري جداً.',
-    icon: '🚫'
-  },
-  {
-    title: 'الإدمان الرقمي',
-    content: 'قضاء وقت طويل أمام الشاشة يؤثر على نمو طفلك العقلي والاجتماعي.',
-    icon: '🧠'
-  },
-  {
-    title: 'التنمر الإلكتروني',
-    content: 'راقب سلوك طفلك وتحدث معه دائماً عن أي مضايقات قد يواجهها.',
-    icon: '💬'
-  }
-];
 
 export const NAV_ITEMS = [
   { id: 'home', label: 'الرئيسية', icon: Home },

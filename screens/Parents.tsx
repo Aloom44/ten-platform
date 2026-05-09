@@ -11,7 +11,9 @@ import {
   Globe, 
   CheckCircle,
   AlertTriangle,
-  X
+  X,
+  User,
+  Calendar
 } from 'lucide-react';
 
 interface ParentsProps {
@@ -55,20 +57,24 @@ export const Parents: React.FC<ParentsProps> = ({ onBack, currentSettings, onUpd
 
   const getTipIcon = (category: string) => {
     switch (category) {
-      case 'protection': return <ShieldAlert size={20} />;
       case 'screen_time': return <Clock size={20} />;
-      case 'digital_edu': return <CheckCircle size={20} />;
-      case 'online_safety': return <Lock size={20} />;
+      case 'sleep': return <Moon size={20} />;
+      case 'games': return <Settings size={20} />;
+      case 'protection': return <ShieldAlert size={20} />;
+      case 'mental_health': return <AlertTriangle size={20} />;
+      case 'family_comms': return <Globe size={20} />;
       default: return <ShieldAlert size={20} />;
     }
   };
 
   const getTipColor = (category: string) => {
     switch (category) {
-      case 'protection': return 'bg-red-100 text-red-600';
       case 'screen_time': return 'bg-blue-100 text-blue-600';
-      case 'digital_edu': return 'bg-emerald-100 text-emerald-600';
-      case 'online_safety': return 'bg-indigo-100 text-indigo-600';
+      case 'sleep': return 'bg-indigo-100 text-indigo-600';
+      case 'games': return 'bg-orange-100 text-orange-600';
+      case 'protection': return 'bg-red-100 text-red-600';
+      case 'mental_health': return 'bg-purple-100 text-purple-600';
+      case 'family_comms': return 'bg-emerald-100 text-emerald-600';
       default: return 'bg-slate-100 text-slate-600';
     }
   };
@@ -324,23 +330,31 @@ export const Parents: React.FC<ParentsProps> = ({ onBack, currentSettings, onUpd
         )}
 
         {tips.map((tip) => (
-          <div key={tip.id} className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex gap-4 items-start">
-            <div className={`p-3 rounded-xl flex-shrink-0 ${getTipColor(tip.category)}`}>
+          <div key={tip.id} className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex gap-5 items-start group hover:shadow-md transition-all">
+            <div className={`p-4 rounded-2xl flex-shrink-0 transition-transform group-hover:scale-110 ${getTipColor(tip.category)}`}>
               {getTipIcon(tip.category)}
             </div>
-            <div>
-              <h3 className="font-bold text-slate-800 mb-1">{tip.title}</h3>
-              <p className="text-sm text-slate-500 leading-relaxed">{tip.content}</p>
-              {(tip.contentPreparation || tip.execution) && (
-                <div className="mt-2 pt-2 border-t border-slate-50 flex gap-4">
-                  {tip.contentPreparation && (
-                    <span className="text-[10px] text-slate-400">إعداد: {tip.contentPreparation}</span>
-                  )}
-                  {tip.execution && (
-                    <span className="text-[10px] text-slate-400">تنفيذ: {tip.execution}</span>
-                  )}
-                </div>
+            <div className="flex-1">
+              <h3 className="font-black text-slate-800 text-lg mb-1">{tip.title}</h3>
+              {tip.summary && (
+                <p className="text-sm font-bold text-slate-400 mb-2">{tip.summary}</p>
               )}
+              <p className="text-sm text-slate-500 leading-relaxed mb-4">{tip.content}</p>
+              
+              <div className="pt-3 border-t border-slate-50 flex flex-wrap gap-x-6 gap-y-2 items-center">
+                {tip.authorName && (
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1">
+                    <User size={12} className="text-emerald-400" />
+                    الكاتب: {tip.authorName}
+                  </span>
+                )}
+                {tip.contentPreparation && (
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1">
+                    <CheckCircle size={12} className="text-blue-400" />
+                    إعداد: {tip.contentPreparation}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         ))}

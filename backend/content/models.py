@@ -146,45 +146,23 @@ class Caricature(models.Model):
         return self.title
 
 
-class Podcast(models.Model):
-    """البودكاست"""
-    title = models.CharField(max_length=200, verbose_name="العنوان")
-    description = models.TextField(verbose_name="الوصف")
-    thumbnail = models.ImageField(upload_to='podcasts/', blank=True, null=True, verbose_name="الصورة المصغرة")
-    audio_url = models.URLField(verbose_name="رابط الصوت")
-    duration = models.IntegerField(default=0, verbose_name="المدة (ثواني)")
-    age_group = models.CharField(max_length=20, verbose_name="الفئة العمرية")
-    category = models.CharField(max_length=50, verbose_name="الفئة")
-    host = models.CharField(max_length=100, blank=True, verbose_name="المقدم")
-    plays_count = models.IntegerField(default=0, verbose_name="عدد مرات التشغيل")
-    likes = models.IntegerField(default=0, verbose_name="الإعجابات")
-    content_preparation = models.CharField(max_length=200, blank=True, verbose_name="إعداد المحتوى")
-    execution = models.CharField(max_length=200, blank=True, verbose_name="تنفيذ")
-    is_active = models.BooleanField(default=True, verbose_name="نشط")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
-    class Meta:
-        verbose_name = "بودكاست"
-        verbose_name_plural = "البودكاست"
-        ordering = ['-created_at']
-    
-    def __str__(self):
-        return self.title
-
-
 class ParentTip(models.Model):
     """نصائح أولياء الأمور"""
     CATEGORY_CHOICES = [
-        ('protection', 'حماية الأطفال من المحتوى غير المناسب'),
         ('screen_time', 'تنظيم وقت الشاشة'),
-        ('digital_edu', 'التربية الرقمية'),
-        ('online_safety', 'الأمان على الإنترنت'),
+        ('sleep', 'النوم والشاشات'),
+        ('games', 'الألعاب الإلكترونية'),
+        ('protection', 'حماية الأطفال'),
+        ('mental_health', 'الصحة النفسية'),
+        ('family_comms', 'التواصل الأسري'),
     ]
     
     title = models.CharField(max_length=200, verbose_name="العنوان")
+    summary = models.TextField(blank=True, verbose_name="وصف قصير")
     content = models.TextField(verbose_name="المحتوى")
+    author_name = models.CharField(max_length=100, blank=True, verbose_name="الكاتب")
     image = models.ImageField(upload_to='parent_tips/', blank=True, null=True, verbose_name="الصورة")
+    cover_image_url = models.URLField(blank=True, verbose_name="رابط صورة الغلاف")
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, verbose_name="الفئة")
     content_preparation = models.CharField(max_length=200, blank=True, verbose_name="إعداد المحتوى")
     execution = models.CharField(max_length=200, blank=True, verbose_name="تنفيذ")
@@ -204,18 +182,22 @@ class ParentTip(models.Model):
 class Infographic(models.Model):
     """الإنفوجرافيك"""
     CATEGORY_CHOICES = [
-        ('digital_awareness', 'توعية رقمية'),
-        ('positive_behavior', 'سلوكيات إيجابية'),
-        ('online_safety', 'الأمان على الإنترنت'),
-        ('health_habits', 'الصحة والعادات'),
-        ('quick_info', 'معلومات سريعة'),
+        ('online_safety', 'الأمان الإلكتروني'),
+        ('digital_health', 'الصحة الرقمية'),
+        ('digital_awareness', 'التوعية الرقمية'),
+        ('cyberbullying', 'التنمر الإلكتروني'),
+        ('privacy', 'الخصوصية'),
+        ('safe_internet', 'الاستخدام الآمن للإنترنت'),
     ]
     
     title = models.CharField(max_length=200, verbose_name="العنوان")
+    author_name = models.CharField(max_length=100, blank=True, verbose_name="الكاتب")
     description = models.TextField(blank=True, verbose_name="وصف قصير")
-    image = models.ImageField(upload_to='infographics/', verbose_name="الصورة")
+    content = models.TextField(blank=True, verbose_name="المحتوى")
+    image = models.ImageField(upload_to='infographics/', blank=True, null=True, verbose_name="الصورة")
+    image_url = models.URLField(blank=True, verbose_name="رابط الصورة الرئيسية")
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, verbose_name="التصنيف")
-    age_group = models.CharField(max_length=20, verbose_name="الفئة العمرية")
+    age_group = models.CharField(max_length=20, default='8-12', verbose_name="الفئة العمرية")
     content_preparation = models.CharField(max_length=200, blank=True, verbose_name="إعداد المحتوى")
     execution = models.CharField(max_length=200, blank=True, verbose_name="تنفيذ")
     views = models.IntegerField(default=0, verbose_name="المشاهدات")

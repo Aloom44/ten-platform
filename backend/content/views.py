@@ -3,10 +3,10 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Story, Game, Video, Caricature, Podcast, Comment, UserProgress, Category, ParentTip, Infographic, Article
+from .models import Story, Game, Video, Caricature, Comment, UserProgress, Category, ParentTip, Infographic, Article
 from .serializers import (
     StorySerializer, GameSerializer, VideoSerializer, CaricatureSerializer,
-    PodcastSerializer, CommentSerializer, UserProgressSerializer, CategorySerializer,
+    CommentSerializer, UserProgressSerializer, CategorySerializer,
     ParentTipSerializer, InfographicSerializer, ArticleSerializer
 )
 
@@ -121,28 +121,6 @@ class CaricatureViewSet(viewsets.ModelViewSet):
         caricature.save()
         return Response({'likes': caricature.likes})
 
-class PodcastViewSet(viewsets.ModelViewSet):
-    queryset = Podcast.objects.filter(is_active=True)
-    serializer_class = PodcastSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['age_group', 'category']
-    search_fields = ['title', 'description', 'host']
-    ordering_fields = ['created_at', 'plays_count', 'likes']
-    
-    @action(detail=True, methods=['post'])
-    def increment_plays(self, request, pk=None):
-        podcast = self.get_object()
-        podcast.plays_count += 1
-        podcast.save()
-        return Response({'plays_count': podcast.plays_count})
-    
-    @action(detail=True, methods=['post'])
-    def like(self, request, pk=None):
-        podcast = self.get_object()
-        podcast.likes += 1
-        podcast.save()
-        return Response({'likes': podcast.likes})
 
 class ParentTipViewSet(viewsets.ModelViewSet):
     queryset = ParentTip.objects.filter(is_active=True)

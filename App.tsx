@@ -8,7 +8,6 @@ import { Articles } from './screens/Articles';
 import { Games } from './screens/Games';
 import { Profile } from './screens/Profile';
 import { Parents } from './screens/Parents';
-import { Podcasts } from './screens/Podcasts';
 import { Caricatures } from './screens/Caricatures';
 import { AdminPanel } from './screens/AdminPanel';
 import { Infographics } from './screens/Infographics';
@@ -55,7 +54,6 @@ function App() {
       case Tab.ARTICLES: return <Articles />;
       case Tab.ADMIN: return <AdminPanel />;
       case Tab.PROFILE: return <Profile />;
-      case Tab.PODCASTS: return <Podcasts />;
       case Tab.CARICATURES: return <Caricatures />;
       case Tab.INFOGRAPHICS: return <Infographics />;
       case Tab.PARENTS: return (

@@ -26,22 +26,24 @@ export const Infographics: React.FC = () => {
 
   const getCategoryLabel = (cat: string) => {
     switch (cat) {
-      case 'digital_awareness': return 'توعية رقمية';
-      case 'positive_behavior': return 'سلوكيات إيجابية';
-      case 'online_safety': return 'الأمان على الإنترنت';
-      case 'health_habits': return 'الصحة والعادات';
-      case 'quick_info': return 'معلومات سريعة';
+      case 'online_safety': return 'الأمان الإلكتروني';
+      case 'digital_health': return 'الصحة الرقمية';
+      case 'digital_awareness': return 'التوعية الرقمية';
+      case 'cyberbullying': return 'التنمر الإلكتروني';
+      case 'privacy': return 'الخصوصية';
+      case 'safe_internet': return 'الاستخدام الآمن للإنترنت';
       default: return cat;
     }
   };
 
   const getCategoryColor = (cat: string) => {
     switch (cat) {
-      case 'digital_awareness': return 'bg-blue-100 text-blue-600';
-      case 'positive_behavior': return 'bg-emerald-100 text-emerald-600';
       case 'online_safety': return 'bg-red-100 text-red-600';
-      case 'health_habits': return 'bg-purple-100 text-purple-600';
-      case 'quick_info': return 'bg-amber-100 text-amber-600';
+      case 'digital_health': return 'bg-emerald-100 text-emerald-600';
+      case 'digital_awareness': return 'bg-blue-100 text-blue-600';
+      case 'cyberbullying': return 'bg-orange-100 text-orange-600';
+      case 'privacy': return 'bg-indigo-100 text-indigo-600';
+      case 'safe_internet': return 'bg-sky-100 text-sky-600';
       default: return 'bg-slate-100 text-slate-600';
     }
   };
@@ -98,27 +100,31 @@ export const Infographics: React.FC = () => {
                 </span>
               </div>
               
-              <p className="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-2">
-                {info.description || 'تعلم مهارات جديدة ومعلومات قيمة من خلال هذا الإنفوجرافيك المتميز.'}
+              <p className="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-2">
+                {info.description}
               </p>
 
-              {/* Contributors */}
-              {(info.contentPreparation || info.execution) && (
-                <div className="flex flex-wrap gap-4 pt-4 border-t border-slate-50">
-                  {info.contentPreparation && (
-                    <div className="flex items-center gap-1.5 text-[10px] text-slate-400">
-                      <User size={12} className="text-emerald-400" />
-                      <span className="font-medium">إعداد: {info.contentPreparation}</span>
-                    </div>
-                  )}
-                  {info.execution && (
-                    <div className="flex items-center gap-1.5 text-[10px] text-slate-400">
-                      <Calendar size={12} className="text-blue-400" />
-                      <span className="font-medium">تنفيذ: {info.execution}</span>
-                    </div>
-                  )}
-                </div>
+              {info.content && (
+                <p className="text-slate-400 text-xs mb-6 line-clamp-3 italic">
+                  {info.content}
+                </p>
               )}
+
+              {/* Contributors */}
+              <div className="flex flex-wrap gap-4 pt-4 border-t border-slate-50">
+                {info.authorName && (
+                  <div className="flex items-center gap-1.5 text-[10px] text-slate-400">
+                    <User size={12} className="text-emerald-400" />
+                    <span className="font-medium">الكاتب: {info.authorName}</span>
+                  </div>
+                )}
+                {info.contentPreparation && (
+                  <div className="flex items-center gap-1.5 text-[10px] text-slate-400">
+                    <Calendar size={12} className="text-blue-400" />
+                    <span className="font-medium">إعداد: {info.contentPreparation}</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         ))}

@@ -50,17 +50,6 @@ export interface Article {
   execution?: string;
 }
 
-export interface Podcast {
-  id: string;
-  title: string;
-  duration: string;
-  host: string;
-  image: string;
-  color: string;
-  contentPreparation?: string;
-  execution?: string;
-}
-
 export interface Caricature {
   id: string;
   title: string;
@@ -73,9 +62,12 @@ export interface Caricature {
 export interface ParentTip {
   id: string;
   title: string;
+  summary?: string;
   content: string;
+  authorName?: string;
   image: string;
-  category: 'protection' | 'screen_time' | 'digital_edu' | 'online_safety';
+  coverImageUrl?: string;
+  category: 'screen_time' | 'sleep' | 'games' | 'protection' | 'mental_health' | 'family_comms';
   contentPreparation?: string;
   execution?: string;
   createdAt?: string;
@@ -84,9 +76,12 @@ export interface ParentTip {
 export interface Infographic {
   id: string;
   title: string;
+  authorName?: string;
   description: string;
+  content?: string;
   image: string;
-  category: 'digital_awareness' | 'positive_behavior' | 'online_safety' | 'health_habits' | 'quick_info';
+  imageUrl?: string;
+  category: 'online_safety' | 'digital_health' | 'digital_awareness' | 'cyberbullying' | 'privacy' | 'safe_internet';
   age_group: string;
   contentPreparation?: string;
   execution?: string;
@@ -117,7 +112,6 @@ export enum Tab {
   ADMIN = 'admin',
   PARENTS = 'parents',
   PROFILE = 'profile',
-  PODCASTS = 'podcasts',
   CARICATURES = 'caricatures',
   INFOGRAPHICS = 'infographics'
 }

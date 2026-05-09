@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Story, Game, Video, Caricature, Podcast, Comment, UserProgress, ParentTip, Infographic, Article
+from .models import Category, Story, Game, Video, Caricature, Comment, UserProgress, ParentTip, Infographic, Article
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
@@ -73,27 +73,16 @@ class CaricatureAdmin(admin.ModelAdmin):
         ('الإحصائيات', {'fields': ('views', 'likes', 'created_at', 'updated_at')}),
     )
 
-@admin.register(Podcast)
-class PodcastAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'age_group', 'duration', 'plays_count', 'likes', 'is_active', 'created_at']
-    list_filter = ['is_active', 'category', 'age_group']
-    search_fields = ['title', 'description', 'host']
-    readonly_fields = ['plays_count', 'likes', 'created_at', 'updated_at']
-    fieldsets = (
-        (None, {'fields': ('title', 'description', 'category', 'thumbnail', 'audio_url', 'duration', 'host')}),
-        ('التفاصيل', {'fields': ('age_group', 'is_active')}),
-        ('فريق العمل', {'fields': ('content_preparation', 'execution')}),
-        ('الإحصائيات', {'fields': ('plays_count', 'likes', 'created_at', 'updated_at')}),
-    )
+from .models import Category, Story, Game, Video, Caricature, Comment, UserProgress, ParentTip, Infographic, Article
 
 @admin.register(ParentTip)
 class ParentTipAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'is_active', 'created_at']
+    list_display = ['title', 'category', 'author_name', 'is_active', 'created_at']
     list_filter = ['is_active', 'category']
-    search_fields = ['title', 'content']
+    search_fields = ['title', 'content', 'author_name']
     readonly_fields = ['created_at', 'updated_at']
     fieldsets = (
-        (None, {'fields': ('title', 'content', 'image', 'category')}),
+        (None, {'fields': ('title', 'summary', 'content', 'author_name', 'category', 'image', 'cover_image_url')}),
         ('التفاصيل', {'fields': ('is_active',)}),
         ('فريق العمل', {'fields': ('content_preparation', 'execution')}),
         ('التواريخ', {'fields': ('created_at', 'updated_at')}),
@@ -101,12 +90,12 @@ class ParentTipAdmin(admin.ModelAdmin):
 
 @admin.register(Infographic)
 class InfographicAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'age_group', 'views', 'likes', 'is_active', 'created_at']
+    list_display = ['title', 'category', 'author_name', 'age_group', 'views', 'likes', 'is_active', 'created_at']
     list_filter = ['is_active', 'category', 'age_group']
-    search_fields = ['title', 'description']
+    search_fields = ['title', 'description', 'author_name']
     readonly_fields = ['views', 'likes', 'created_at', 'updated_at']
     fieldsets = (
-        (None, {'fields': ('title', 'description', 'image', 'category')}),
+        (None, {'fields': ('title', 'description', 'content', 'author_name', 'category', 'image', 'image_url')}),
         ('التفاصيل', {'fields': ('age_group', 'is_active')}),
         ('فريق العمل', {'fields': ('content_preparation', 'execution')}),
         ('الإحصائيات', {'fields': ('views', 'likes', 'created_at', 'updated_at')}),
