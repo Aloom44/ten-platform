@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { api } from '../services/api';
-import { Play, Image as ImageIcon, Plus, Trash2, LogOut, Layout, BookOpen, Video as VideoIcon, FileText, Lightbulb, BarChart3, User, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Play, Image as ImageIcon, Plus, Trash2, LogOut, Layout, BookOpen, Video as VideoIcon, FileText, Lightbulb, BarChart3, User, CheckCircle2, AlertCircle, Gamepad2 } from 'lucide-react';
 import { INFOGRAPHIC_CATEGORIES, PARENT_TIP_CATEGORIES } from '../constants';
 
 type ContentType = 'story' | 'video' | 'article' | 'parent_tip' | 'infographic' | 'game';
