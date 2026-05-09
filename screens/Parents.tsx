@@ -393,8 +393,12 @@ export const Parents: React.FC<ParentsProps> = ({ onBack, currentSettings, onUpd
                 onClick={() => setSelectedTip(tip)}
                 className="bg-white p-8 rounded-[3rem] shadow-sm border border-slate-100 flex flex-col sm:flex-row gap-8 items-start group hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 cursor-pointer"
               >
-                <div className={`p-6 rounded-[2rem] flex-shrink-0 transition-transform group-hover:scale-110 shadow-lg ${getTipColor(tip.category)}`}>
-                  {getTipIcon(tip.category)}
+                <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-[2rem] flex-shrink-0 overflow-hidden shadow-lg border-4 border-white group-hover:scale-105 transition-transform duration-500">
+                  <img 
+                    src={tip.image || tip.coverImageUrl || 'https://picsum.photos/200/200?random=' + idx} 
+                    className="w-full h-full object-cover" 
+                    alt={tip.title}
+                  />
                 </div>
                 <div className="flex-1 text-right w-full">
                   <div className="flex flex-wrap items-center justify-end gap-3 mb-4">
@@ -609,13 +613,17 @@ export const Parents: React.FC<ParentsProps> = ({ onBack, currentSettings, onUpd
                                 setReadingProgress(0);
                                 scrollRef.current?.scrollTo(0, 0);
                               }}
-                              className="flex-shrink-0 w-[280px] bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm snap-start cursor-pointer hover:shadow-xl hover:-translate-y-2 transition-all duration-300"
+                              className="flex-shrink-0 w-[280px] bg-white p-4 rounded-[2.5rem] border border-slate-100 shadow-sm snap-start cursor-pointer hover:shadow-xl hover:-translate-y-2 transition-all duration-300"
                             >
-                               <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 shadow-sm ${getTipColor(tip.category)}`}>
-                                  {getTipIcon(tip.category)}
+                               <div className="w-full h-32 rounded-[1.8rem] overflow-hidden mb-4 shadow-sm">
+                                  <img 
+                                    src={tip.image || tip.coverImageUrl || 'https://picsum.photos/400/300?random=' + tip.id} 
+                                    className="w-full h-full object-cover"
+                                    alt={tip.title}
+                                  />
                                </div>
-                               <h4 className="font-black text-slate-800 text-lg mb-2 text-right line-clamp-2 leading-tight">{tip.title}</h4>
-                               <p className="text-[10px] font-black text-emerald-500 text-right uppercase tracking-wider">
+                               <h4 className="font-black text-slate-800 text-lg mb-2 text-right line-clamp-1 leading-tight px-2">{tip.title}</h4>
+                               <p className="text-[10px] font-black text-emerald-500 text-right uppercase tracking-wider px-2">
                                   {getCategoryLabel(tip.category)}
                                </p>
                             </div>
