@@ -98,12 +98,12 @@ export const Home: React.FC<HomeProps> = ({ onChangeTab }) => {
             </button>
           </div>
 
-          <div className="relative w-48 h-48 md:w-80 md:h-80 flex-shrink-0">
-             <div className="w-full h-full rounded-[2.5rem] bg-slate-50 border border-slate-100 overflow-hidden shadow-inner flex items-center justify-center">
+          <div className="relative w-full h-64 md:w-80 md:h-80 flex-shrink-0">
+             <div className="w-full h-full rounded-3xl md:rounded-[2.5rem] bg-slate-50 border border-slate-100 overflow-hidden shadow-inner flex items-center justify-center">
                 <img 
-                  src="https://picsum.photos/600/600?random=115" 
-                  alt="Child using tablet safely" 
-                  className="w-full h-full object-cover mix-blend-multiply opacity-90"
+                  src="https://i.ibb.co/cXgVPR0r/Chat-GPT-Image-May-9-2026-05-03-46-AM.png" 
+                  alt="TEN Platform" 
+                  className="w-full h-full object-cover opacity-100"
                 />
              </div>
              <div className="absolute -bottom-4 -right-4 bg-white p-3 rounded-2xl shadow-xl border border-slate-50">
