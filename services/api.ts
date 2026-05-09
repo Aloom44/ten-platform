@@ -184,6 +184,12 @@ const fetchJson = async (endpoint: string, options: RequestInit = {}) => {
       ...options.headers,
     },
   });
+  
+  if (response.status === 401) {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('refresh_token');
+  }
+
   if (!response.ok) {
     let errorMsg = `API Error: ${response.status}`;
     try {

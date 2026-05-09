@@ -179,6 +179,15 @@ export const AdminPanel: React.FC = () => {
       setValues(emptyValues);
     } catch (err: any) {
       console.error('Submission error:', err);
+      
+      // Handle Token Expiration
+      if (err?.message?.includes('401') || err?.message?.includes('token_not_valid')) {
+        setError('انتهت جلسة الدخول. يرجى تسجيل الدخول مرة أخرى.');
+        setIsLoggedIn(false);
+        api.logout();
+        return;
+      }
+
       let details = '';
       if (err?.message) details = ` (${err.message})`;
       setError(`فشل رفع المحتوى${details}`);
