@@ -64,240 +64,152 @@ export const Home: React.FC<HomeProps> = ({ onChangeTab }) => {
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 }
-  };
-
-  return (
-    <div className="space-y-12 pb-32 pt-4">
-      {/* --- HERO SECTION --- */}
+   return (
+    <div className="space-y-10 pb-32 pt-2">
+      {/* --- HERO SECTION (Simplified & Editorial) --- */}
       <motion.div 
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        className="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-sky-400 via-blue-500 to-indigo-600 text-white p-8 md:p-16 shadow-2xl shadow-blue-200 mx-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="relative overflow-hidden rounded-[2rem] bg-white border border-slate-100 p-6 md:p-10 shadow-sm mx-4"
       >
-        {/* Floating Decorative Elements */}
-        <motion.div 
-          animate={{ y: [0, -15, 0], rotate: [0, 10, 0] }}
-          transition={{ duration: 5, repeat: Infinity }}
-          className="absolute top-10 right-10 w-20 h-20 bg-white/10 rounded-full backdrop-blur-md border border-white/20 hidden md:block"
-        />
-        <motion.div 
-          animate={{ scale: [1, 1.1, 1] }}
-          transition={{ duration: 4, repeat: Infinity }}
-          className="absolute bottom-20 left-10 w-32 h-32 bg-yellow-400/20 rounded-full blur-3xl"
-        />
-        
-        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
-          <div className="max-w-xl text-center md:text-right">
-            <motion.div 
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-2xl bg-white/20 backdrop-blur-md border border-white/30 text-sm font-black mb-6"
-            >
-              <ShieldCheck size={18} className="text-yellow-300" /> بطل TEN الذكي
-            </motion.div>
+        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="max-w-xl text-right">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-[10px] font-black mb-4 uppercase tracking-wider">
+              <ShieldCheck size={14} /> منصة TEN الرقمية
+            </div>
             
-            <h1 className="text-4xl md:text-7xl font-black mb-6 leading-[1.1] tracking-tight">
-              نتعلم ونستمتع <br/> <span className="text-yellow-300 italic">بأمان 💙</span>
+            <h1 className="text-3xl md:text-5xl font-black mb-4 leading-tight text-slate-900">
+              نتعلم ونستمتع <span className="text-blue-600">بأمان</span>
             </h1>
             
-            <p className="text-lg md:text-xl opacity-90 mb-10 leading-relaxed font-bold max-w-lg">
-              قصص وفيديوهات ومقالات ممتعة تساعد الأطفال على استخدام التكنولوجيا بشكل صحي وآمن.
+            <p className="text-sm md:text-base text-slate-500 mb-8 leading-relaxed font-medium max-w-md">
+              بوابتكم لعالم من القصص والفيديوهات والمقالات التعليمية التي تضمن رحلة رقمية صحية وآمنة لأطفالكم.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <button 
-                onClick={() => onChangeTab(Tab.STORIES)}
-                className="group bg-white text-blue-600 px-10 py-5 rounded-[1.5rem] font-black shadow-xl shadow-blue-900/20 hover:bg-yellow-300 hover:text-blue-900 active:scale-95 transition-all flex items-center justify-center gap-3 text-lg"
-              >
-                استكشف المحتوى
-                <ArrowRight size={22} className="group-hover:translate-x-2 transition-transform" />
-              </button>
-            </div>
+            <button 
+              onClick={() => onChangeTab(Tab.STORIES)}
+              className="bg-slate-900 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg hover:bg-blue-600 active:scale-95 transition-all flex items-center justify-center gap-2 text-sm"
+            >
+              استكشف المحتوى
+              <ArrowRight size={18} />
+            </button>
           </div>
 
-          <motion.div 
-            initial={{ x: 50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="relative w-64 h-64 md:w-[450px] md:h-[450px]"
-          >
-             {/* Main Illustration Placeholder */}
-             <div className="w-full h-full rounded-[4rem] bg-white/10 backdrop-blur-md border-2 border-white/20 flex items-center justify-center p-8 overflow-hidden relative group">
+          <div className="relative w-48 h-48 md:w-80 md:h-80 flex-shrink-0">
+             <div className="w-full h-full rounded-[2.5rem] bg-slate-50 border border-slate-100 overflow-hidden shadow-inner flex items-center justify-center">
                 <img 
-                  src="https://picsum.photos/800/800?random=115" 
+                  src="https://picsum.photos/600/600?random=115" 
                   alt="Child using tablet safely" 
-                  className="w-full h-full object-cover rounded-[3rem] transition-transform group-hover:scale-105 duration-700"
+                  className="w-full h-full object-cover mix-blend-multiply opacity-90"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent"></div>
-                <div className="absolute bottom-6 right-6 left-6 bg-white/90 backdrop-blur-lg p-4 rounded-3xl border border-white flex items-center gap-3 shadow-2xl">
-                   <div className="bg-emerald-500 p-2 rounded-full text-white">
-                      <ShieldCheck size={20} />
-                   </div>
-                   <div className="text-right">
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">تصفح آمن</p>
-                      <p className="text-xs font-black text-slate-800">بيئة محمية بالكامل 🛡️</p>
-                   </div>
-                </div>
              </div>
-             {/* Floating Icon */}
-             <motion.div 
-               animate={{ y: [-10, 10, -10] }}
-               transition={{ duration: 3, repeat: Infinity }}
-               className="absolute -top-4 -left-4 bg-yellow-400 p-4 rounded-3xl shadow-xl rotate-12"
-             >
-                <Sparkles size={24} className="text-white" />
-             </motion.div>
-          </motion.div>
+             <div className="absolute -bottom-4 -right-4 bg-white p-3 rounded-2xl shadow-xl border border-slate-50">
+                <Sparkles size={20} className="text-yellow-500" />
+             </div>
+          </div>
         </div>
       </motion.div>
 
-      {/* --- CATEGORY CARDS --- */}
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="px-4 grid grid-cols-2 md:grid-cols-4 gap-6"
-      >
+      {/* --- CATEGORY CARDS (Smaller & Cleaner) --- */}
+      <div className="px-4 grid grid-cols-2 md:grid-cols-4 gap-4">
         {categories.map((cat) => (
-          <motion.button 
+          <button 
             key={cat.id}
-            variants={itemVariants}
-            whileHover={{ y: -8, scale: 1.02 }}
             onClick={() => onChangeTab(cat.id)}
-            className={`relative overflow-hidden group p-6 rounded-[2.5rem] border-2 flex flex-col items-center gap-4 transition-all shadow-lg ${cat.color} ${cat.shadow}`}
+            className="group flex items-center gap-3 bg-white p-3 rounded-2xl border border-slate-100 hover:border-blue-200 hover:shadow-md transition-all text-right"
           >
-            <div className="bg-white p-5 rounded-[1.8rem] shadow-sm group-hover:scale-110 transition-transform">
-              <cat.icon size={32} />
+            <div className={`p-2.5 rounded-xl shadow-sm ${cat.color.replace('bg-', 'bg-opacity-10 bg-')}`}>
+              <cat.icon size={20} />
             </div>
-            <span className="font-black text-lg">{cat.label}</span>
-            {/* Glass decoration */}
-            <div className="absolute top-0 right-0 w-16 h-16 bg-white/20 rounded-bl-full -mr-4 -mt-4 opacity-50 group-hover:scale-150 transition-transform"></div>
-          </motion.button>
+            <span className="font-bold text-slate-700 text-xs md:text-sm">{cat.label}</span>
+          </button>
         ))}
-      </motion.div>
+      </div>
 
-      {/* --- STORIES SECTION --- */}
+      {/* --- STORIES SECTION (Editorial List) --- */}
       <div className="px-6">
-        <div className="flex justify-between items-center mb-8 pr-2">
-          <h3 className="text-3xl font-black text-slate-900 flex items-center gap-3">
-             <BookOpen className="text-orange-500" size={32} />
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-xl font-black text-slate-900 flex items-center gap-2">
+             <div className="w-1.5 h-6 bg-orange-500 rounded-full"></div>
              أحدث القصص
           </h3>
           <button 
             onClick={() => onChangeTab(Tab.STORIES)} 
-            className="group bg-slate-100 hover:bg-slate-200 p-3 rounded-2xl text-slate-500 hover:text-slate-900 transition-all flex items-center gap-2 font-black text-sm"
+            className="text-slate-400 hover:text-blue-600 transition-all flex items-center gap-1 font-bold text-xs"
           >
-             المزيد <ChevronLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+             شاهد الكل <ChevronLeft size={16} />
           </button>
         </div>
         
-        {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map(i => <div key={i} className="bg-slate-50 h-64 rounded-[3rem] animate-pulse"></div>)}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {stories.map((story, idx) => (
-              <motion.div 
-                key={story.id} 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1 }}
-                className="group bg-white p-5 rounded-[3rem] shadow-sm border border-slate-50 hover:shadow-2xl transition-all cursor-pointer"
-                onClick={() => onChangeTab(Tab.STORIES)}
-              >
-                <div className="relative h-48 overflow-hidden rounded-[2rem] mb-6">
-                  <img src={story.image} alt={story.title} className="w-full h-full object-cover transition-transform group-hover:scale-110 duration-700" />
-                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-xl text-[10px] font-black text-slate-800 shadow-sm">
-                     قراءة 5 دق
-                  </div>
-                </div>
-                <h4 className="font-black text-slate-800 mb-2 text-xl pr-2">{story.title}</h4>
-                <p className="text-slate-500 font-bold text-sm leading-relaxed pr-2 line-clamp-2 italic">{story.excerpt}</p>
-              </motion.div>
-            ))}
-          </div>
-        )}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {stories.map((story, idx) => (
+            <motion.div 
+              key={story.id} 
+              className="group cursor-pointer"
+              onClick={() => onChangeTab(Tab.STORIES)}
+            >
+              <div className="relative h-40 overflow-hidden rounded-2xl mb-4 border border-slate-100">
+                <img src={story.image} alt={story.title} className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" />
+              </div>
+              <h4 className="font-black text-slate-800 mb-1 text-base text-right">{story.title}</h4>
+              <p className="text-slate-500 font-medium text-[11px] leading-relaxed text-right line-clamp-2">{story.excerpt}</p>
+            </motion.div>
+          ))}
+        </div>
       </div>
 
-      {/* --- ARTICLES PREVIEW --- */}
+      {/* --- ARTICLES (Magazine Style) --- */}
       <div className="px-6">
-        <div className="flex justify-between items-center mb-8 pr-2">
-          <h3 className="text-3xl font-black text-slate-900 flex items-center gap-3">
-             <Newspaper className="text-blue-500" size={32} />
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-xl font-black text-slate-900 flex items-center gap-2">
+             <div className="w-1.5 h-6 bg-blue-500 rounded-full"></div>
              مقالات مختارة
           </h3>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {articles.length > 0 ? articles.map(article => (
-            <motion.div 
-              key={article.id} 
-              whileHover={{ x: -10 }}
-              onClick={() => onChangeTab(Tab.ARTICLES)}
-              className="bg-white rounded-[3rem] overflow-hidden shadow-sm border border-slate-50 flex gap-6 p-5 hover:shadow-2xl transition-all cursor-pointer"
-            >
-              <img src={article.coverImageUrl} className="w-28 h-28 object-cover rounded-[2rem] flex-shrink-0 shadow-lg" alt={article.title} />
-              <div className="flex flex-col justify-center text-right flex-1">
-                <span className="text-[10px] font-black text-blue-500 uppercase mb-2 tracking-widest">{article.category}</span>
-                <h4 className="font-black text-slate-800 text-lg line-clamp-1 mb-2">{article.title}</h4>
-                <p className="text-xs text-slate-500 font-bold leading-relaxed line-clamp-2">{article.summary}</p>
-              </div>
-            </motion.div>
-          )) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {articles.map(article => (
             <div 
+              key={article.id} 
               onClick={() => onChangeTab(Tab.ARTICLES)}
-              className="col-span-full bg-gradient-to-br from-blue-500 to-indigo-600 rounded-[3rem] p-10 text-white flex flex-col md:flex-row items-center justify-between cursor-pointer hover:shadow-2xl active:scale-[0.98] transition-all overflow-hidden relative"
+              className="bg-white rounded-2xl overflow-hidden border border-slate-100 flex gap-4 p-4 hover:bg-slate-50 transition-all cursor-pointer"
             >
-              <div className="relative z-10 text-center md:text-right">
-                <h3 className="text-4xl font-black mb-4 flex items-center justify-center md:justify-start gap-3">
-                   اكتشف عالم المعرفة! <MousePointer2 size={32} />
-                </h3>
-                <p className="text-blue-100 text-lg font-bold">اقرأ مقالاتنا الجديدة حول الأمان الرقمي والاستخدام الصحي للجوال.</p>
+              <img src={article.coverImageUrl} className="w-20 h-20 object-cover rounded-xl flex-shrink-0" alt={article.title} />
+              <div className="flex flex-col justify-center text-right flex-1">
+                <span className="text-[9px] font-black text-blue-500 uppercase mb-1 tracking-wider">{article.category}</span>
+                <h4 className="font-black text-slate-800 text-sm line-clamp-1 mb-1">{article.title}</h4>
+                <p className="text-[10px] text-slate-400 font-medium line-clamp-1 italic">{article.summary}</p>
               </div>
-              <div className="relative z-10 bg-white/20 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/20 rotate-6 shadow-2xl mt-8 md:mt-0">
-                 <span className="text-7xl">📚</span>
-              </div>
-              {/* Decoration */}
-              <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-20 -translate-y-20 blur-3xl"></div>
             </div>
-          )}
+          ))}
         </div>
       </div>
 
-      {/* --- VIDEOS PREVIEW --- */}
+      {/* --- VIDEOS (Compact Grid) --- */}
       <div className="px-6">
-        <div className="flex justify-between items-center mb-8 pr-2">
-          <h3 className="text-3xl font-black text-slate-900 flex items-center gap-3">
-             <VideoIcon className="text-red-500" size={32} />
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-xl font-black text-slate-900 flex items-center gap-2">
+             <div className="w-1.5 h-6 bg-red-500 rounded-full"></div>
              فيديوهات TEN
           </h3>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {videos.map(video => (
-              <motion.div 
+              <div 
                 key={video.id} 
-                whileHover={{ scale: 1.05 }}
-                className="bg-white rounded-[2.5rem] p-3 shadow-sm border border-slate-50 hover:shadow-2xl transition-all cursor-pointer group"
+                className="group cursor-pointer"
                 onClick={() => onChangeTab(Tab.VIDEOS)}
               >
-                <div className="relative h-32 md:h-40 overflow-hidden rounded-[2rem]">
+                <div className="relative h-28 overflow-hidden rounded-xl border border-slate-100">
                   <img src={video.thumbnail} className="w-full h-full object-cover" alt={video.title} />
-                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                    <div className="bg-white/95 p-3 rounded-full shadow-2xl scale-90 group-hover:scale-110 transition-transform">
-                       <Play size={24} className="text-slate-900 fill-slate-900 ml-1" />
+                  <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors flex items-center justify-center">
+                    <div className="bg-white/90 p-2 rounded-full shadow-lg scale-90">
+                       <Play size={16} className="text-slate-900 fill-slate-900 ml-0.5" />
                     </div>
                   </div>
                 </div>
-                <h4 className="text-base font-black text-slate-700 mt-4 px-2 line-clamp-1 text-right">{video.title}</h4>
-                {video.contentPreparation && (
-                  <div className="flex items-center justify-end gap-2 px-2 mt-2">
-                     <span className="text-[10px] text-slate-400 font-bold italic">بإشراف: {video.contentPreparation}</span>
-                  </div>
-                )}
-              </motion.div>
+                <h4 className="text-xs font-black text-slate-700 mt-2 text-right line-clamp-1">{video.title}</h4>
+              </div>
            ))}
         </div>
       </div>
