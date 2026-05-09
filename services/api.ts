@@ -135,7 +135,7 @@ const mapParentTip = (item: any): ParentTip => ({
   summary: item.summary,
   content: item.content,
   authorName: item.author_name,
-  image: resolveMediaUrl(item.image_url || item.image),
+  image: resolveMediaUrl(item.cover_image_url || item.image_url || item.image),
   coverImageUrl: item.cover_image_url,
   category: item.category,
   contentPreparation: item.content_preparation,
