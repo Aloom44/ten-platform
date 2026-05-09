@@ -9,7 +9,6 @@ import { Games } from './screens/Games';
 import { Parents } from './screens/Parents';
 import { AdminPanel } from './screens/AdminPanel';
 import { Infographics } from './screens/Infographics';
-import { Games } from './screens/Games';
 import { Tab, AppSettings } from './types';
 
 function App() {
