@@ -146,7 +146,6 @@ export const NAV_ITEMS = [
   { id: 'infographics', label: 'إنفوجرافيك', icon: BarChart3 },
   { id: 'articles', label: 'مقالات', icon: Newspaper },
   { id: 'admin', label: 'إدارة', icon: ShieldAlert },
-  { id: 'profile', label: 'بطلي', icon: User },
 ];
 
 // Multiplayer Mock Data

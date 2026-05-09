@@ -50,14 +50,6 @@ export interface Article {
   execution?: string;
 }
 
-export interface Caricature {
-  id: string;
-  title: string;
-  image: string;
-  description: string;
-  contentPreparation?: string;
-  execution?: string;
-}
 
 export interface ParentTip {
   id: string;
@@ -111,8 +103,6 @@ export enum Tab {
   ARTICLES = 'articles',
   ADMIN = 'admin',
   PARENTS = 'parents',
-  PROFILE = 'profile',
-  CARICATURES = 'caricatures',
   INFOGRAPHICS = 'infographics'
 }
 

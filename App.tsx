@@ -6,9 +6,7 @@ import { Stories } from './screens/Stories';
 import { Videos } from './screens/Videos';
 import { Articles } from './screens/Articles';
 import { Games } from './screens/Games';
-import { Profile } from './screens/Profile';
 import { Parents } from './screens/Parents';
-import { Caricatures } from './screens/Caricatures';
 import { AdminPanel } from './screens/AdminPanel';
 import { Infographics } from './screens/Infographics';
 import { Tab, AppSettings } from './types';
@@ -53,8 +51,6 @@ function App() {
       case Tab.VIDEOS: return <Videos />;
       case Tab.ARTICLES: return <Articles />;
       case Tab.ADMIN: return <AdminPanel />;
-      case Tab.PROFILE: return <Profile />;
-      case Tab.CARICATURES: return <Caricatures />;
       case Tab.INFOGRAPHICS: return <Infographics />;
       case Tab.PARENTS: return (
         <Parents 
