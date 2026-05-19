@@ -34,14 +34,14 @@ export const MOCK_VIDEOS: Video[] = [
     title: 'الأمان الإلكتروني للأطفال',
     duration: '03:00',
     thumbnail: 'https://picsum.photos/400/250?random=104',
-    contentPreparation: 'أسامة علي الزنون'
+    contentPreparation: 'ادم سمير السيد'
   },
   {
     id: '2',
     title: 'مخاطر استخدام الهاتف',
     duration: '04:30',
     thumbnail: 'https://picsum.photos/400/250?random=105',
-    contentPreparation: 'أسامة علي الزنون'
+    contentPreparation: 'ادم سمير السيد'
   },
   {
     id: '3',
